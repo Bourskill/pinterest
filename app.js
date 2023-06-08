@@ -37,12 +37,16 @@ getDocs(productRef)
     return pintarImg(productosArray);
   })
   .then(() => {
+
     const grid = document.querySelector('.masonry');
-    const masonry = new Masonry(grid, {
-      itemSelector: '.masonry-item',
-      columnWidth: '.masonry-item',
-      percentPosition: true
-    });
+    setTimeout(() => {
+      grid.style.opacity = "1";
+      const masonry = new Masonry(grid, {
+        itemSelector: '.masonry-item',
+        columnWidth: '.masonry-item',
+        percentPosition: true
+      });
+    }, 500);
 
     const observer = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
@@ -61,18 +65,17 @@ getDocs(productRef)
     console.error("Error al obtener los documentos:", error);
   });
 
+
+
 const pintarImg = product => {
   return new Promise((resolve, reject) => {
     product.forEach(element => {
       const imgProduct = document.querySelector("#img-producto").content.cloneNode(true);
-
       imgProduct.querySelector(".title h3").textContent = element.nombre;
       imgProduct.querySelector(".item img").src = element.imagen[0];
       imgProduct.querySelector(".item").dataset.id = element.id;
-
       document.querySelector(".masonry").appendChild(imgProduct);
     });
-
     sliderItem();
     resolve();
   });
@@ -159,7 +162,7 @@ const viewDes = (product) => {
     numeros1.querySelectorAll('span')[1].textContent = numero;
   });
 
-  btnCar.addEventListener("click",()=>oterfuncion(product))
+  btnCar.addEventListener("click", () => oterfuncion(product))
 
   currentFondoViewCard = fondoViewCard;
 };
@@ -167,10 +170,10 @@ const viewDes = (product) => {
 
 
 
-const oterfuncion = (product)=>{
+const oterfuncion = (product) => {
   const descripcionCard = document.querySelector(".d-info");
 
-  
+
 }
 
 

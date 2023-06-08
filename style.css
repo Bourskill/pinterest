@@ -67,6 +67,8 @@ h1 {
 .masonry {
   max-width: 90%;
   margin: 50px auto;
+  opacity: 0;
+  transition: opacity .5s ease-out;
 }
 
 .masonry-item {
