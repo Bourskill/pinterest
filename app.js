@@ -145,7 +145,7 @@ const viewDes = (product) => {
 
   const cardView = document.querySelector("#card-descripcion").content.cloneNode(true);
   const fondoViewCard = cardView.querySelector(".descripcion-fondo");
-  const numeros1 = cardView.querySelectorAll('.numeros')[0];
+  const numeros1 = cardView.querySelector('.numeros');
   const btnCar = cardView.querySelector('.car-shop');
 
   cardView.querySelector(".d-img img").src = product.imagen[0];
@@ -193,4 +193,34 @@ function viewCarShop(nombre, img, precio, undNumber) {
 }
 
 
+const car = document.querySelector(".car");
+car.addEventListener("click", async () => {
+
+  const carmenu = document.querySelector("#card-shop-menu").content.cloneNode(true);
+  productosShoping.forEach(item => {
+    const productMenu = document.querySelector("#product-shoping-menu").content.cloneNode(true);
+
+    productMenu.querySelector("img").src = item.img;
+    productMenu.querySelector("h3").textContent = item.name;
+    productMenu.querySelector("h3 span").textContent = item.precio;
+    productMenu.querySelectorAll('.numeros span')[1].textContent = item.und;
+
+    carmenu.querySelector(".car-shoping-body").appendChild(productMenu);
+  });
+  
+  document.body.appendChild(carmenu);
+
+  await new Promise(resolve => setTimeout(resolve));
+
+  const fondo2 = document.querySelector(".fondo-mentiras");
+  const equis3 = document.querySelector('.equis3');
+  fondo2.style.opacity = "1";
+  equis3.addEventListener("click", () => {
+    fondo2.style.opacity = "";
+    setTimeout(() => {
+      fondo2.remove();
+    }, 500);
+  });
+
+});
 

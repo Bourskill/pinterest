@@ -3,11 +3,13 @@
   padding: 0;
   box-sizing: border-box;
 }
+
 body {
   background-color: rgb(14, 14, 14);
   color: white;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
+
 h1 {
   margin: 50px auto;
 }
@@ -29,7 +31,8 @@ h1 {
 
 
 /* Botones */
-.equis{
+.equis,
+.car {
   font-size: 200%;
   position: absolute;
   cursor: pointer;
@@ -37,11 +40,22 @@ h1 {
   transition: .2s ease;
 }
 
+.car {
+  right: 5%;
+  bottom: 5%;
+}
+
 .equis1 {
   top: 4%;
   right: 5%;
 }
-.equis2{
+
+.equis2 {
+  top: 15px;
+  right: 15px;
+}
+
+.equis3 {
   top: 15px;
   right: 15px;
 }
@@ -58,18 +72,28 @@ h1 {
   cursor: pointer;
   transition: all .2s ease-in-out;
 }
+
 .descripcion-btn i {
   margin-right: 5px;
 }
 
-.equis1:hover, .equis2:hover, .descripcion-btn:hover {
+.equis1:hover,
+.equis2:hover,
+.descripcion-btn:hover,
+.car:hover,
+.equis3:hover {
   opacity: 1;
   transform: scale(1.1);
 }
 
-.equis1:active, .equis2:active, .descripcion-btn:active {
+.equis1:active,
+.equis2:active,
+.descripcion-btn:active,
+.car:active,
+.equis3:active {
   transform: scale(.8);
 }
+
 /* Botones */
 
 
@@ -97,7 +121,7 @@ h1 {
 }
 
 .visible {
-  opacity: 1;
+  opacity: 1 !important;
 }
 
 .item {
@@ -177,7 +201,8 @@ h1 {
 
 .fondo-mentiras {
   display: flex;
-  opacity: 1;
+  opacity: 0;
+  transition: .5s ease;
 }
 
 .preview-imgs {
@@ -349,6 +374,8 @@ h1 {
   border-radius: 15px;
   overflow: hidden;
 
+  position: relative;
+
   display: flex;
   flex-direction: column;
   background-color: rgb(14, 14, 14);
@@ -399,9 +426,11 @@ h1 {
   transition: .2s ease-in-out;
   cursor: pointer;
 }
+
 .car-shoping-footer button:hover {
   opacity: 1;
 }
+
 .car-shoping-footer button:active {
   opacity: .8;
 }
@@ -412,7 +441,7 @@ h1 {
 
 .shopping-product {
   width: 100%;
-  min-height: 100px;
+  max-height: 120px;
   border-radius: 15px;
   background-color: rgb(31, 31, 31);
 
