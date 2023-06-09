@@ -125,6 +125,20 @@ const sliderItem = () => {
 };
 
 
+function calcularUnd(eNumber) {
+  let numero = 0;
+  return function (e) {
+    const boton = e.target.closest('button');
+    if (!boton) return;
+    if (boton.textContent === '+') {
+      numero++;
+    } else if (boton.textContent === '-') {
+      if (numero > 0) numero--;
+    }
+    eNumber.querySelectorAll('span')[1].textContent = numero;
+  };
+}
+
 let currentFondoViewCard = null;
 const viewDes = (product) => {
   if (currentFondoViewCard) currentFondoViewCard.remove();
@@ -150,30 +164,32 @@ const viewDes = (product) => {
     }, 300);
   });
 
-  let numero = 0;
-  numeros1.addEventListener('click', (e) => {
-    const boton = e.target.closest('button');
-    if (!boton) return;
-    if (boton.textContent === '+') {
-      numero++;
-    } else if (boton.textContent === '-') {
-      if (numero > 0) numero--;
-    }
-    numeros1.querySelectorAll('span')[1].textContent = numero;
-  });
-
-  btnCar.addEventListener("click", () => oterfuncion(product))
+  numeros1.addEventListener('click', calcularUnd(numeros1));
+  btnCar.addEventListener('click', () => viewCarShop(product.nombre, product.imagen[0], product.precio, numeros1));
 
   currentFondoViewCard = fondoViewCard;
 };
 
 
 
+let productosShoping = [];
 
-const oterfuncion = (product) => {
-  const descripcionCard = document.querySelector(".d-info");
+function viewCarShop(nombre, img, precio, undNumber) {
+  const und = undNumber.querySelectorAll('span')[1].textContent;
+  const productoExistente = productosShoping.find(item => item.name === nombre);
+  if (productoExistente) {
+    productoExistente.und += Number(und);
+  } else {
+    const nuevoProducto = {
+      name: nombre,
+      img: img,
+      precio: precio,
+      und: Number(und)
+    };
+    productosShoping.push(nuevoProducto);
+  }
 
-
+  console.log(productosShoping);
 }
 
 
