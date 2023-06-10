@@ -126,7 +126,7 @@ const sliderItem = () => {
 
 
 function calcularUnd(eNumber) {
-  let numero = 0;
+  let numero = eNumber.querySelectorAll('span')[1].textContent || 0;
   return function (e) {
     const boton = e.target.closest('button');
     if (!boton) return;
@@ -172,8 +172,9 @@ const viewDes = (product) => {
 
 
 
-let productosShoping = [];
 
+
+let productosShoping = [];
 function viewCarShop(nombre, img, precio, undNumber) {
   const und = undNumber.querySelectorAll('span')[1].textContent;
   const productoExistente = productosShoping.find(item => item.name === nombre);
@@ -187,23 +188,25 @@ function viewCarShop(nombre, img, precio, undNumber) {
       und: Number(und)
     };
     productosShoping.push(nuevoProducto);
+    localStorage.setItem('productos', JSON.stringify(productosShoping));
   }
-
-  console.log(productosShoping);
 }
-
 
 const car = document.querySelector(".car");
 car.addEventListener("click", async () => {
+  const productosGuardados = JSON.parse(localStorage.getItem('productos'));
 
   const carmenu = document.querySelector("#card-shop-menu").content.cloneNode(true);
-  productosShoping.forEach(item => {
+  productosGuardados.forEach(item => {
     const productMenu = document.querySelector("#product-shoping-menu").content.cloneNode(true);
 
     productMenu.querySelector("img").src = item.img;
     productMenu.querySelector("h3").textContent = item.name;
     productMenu.querySelector("h3 span").textContent = item.precio;
     productMenu.querySelectorAll('.numeros span')[1].textContent = item.und;
+
+    const numeros2 = productMenu.querySelector('.numeros');
+    numeros2.addEventListener('click', calcularUnd(numeros2));
 
     carmenu.querySelector(".car-shoping-body").appendChild(productMenu);
   });

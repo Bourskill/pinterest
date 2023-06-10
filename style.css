@@ -43,6 +43,8 @@ h1 {
 .car {
   right: 5%;
   bottom: 5%;
+  position: fixed;
+  z-index: 999999;
 }
 
 .equis1 {
@@ -56,8 +58,8 @@ h1 {
 }
 
 .equis3 {
-  top: 15px;
-  right: 15px;
+  top: 5px;
+  right: 5px;
 }
 
 .descripcion-btn {
@@ -83,7 +85,7 @@ h1 {
 .car:hover,
 .equis3:hover {
   opacity: 1;
-  transform: scale(1.1);
+  transform: scale(1.08);
 }
 
 .equis1:active,
@@ -441,6 +443,7 @@ h1 {
 
 .shopping-product {
   width: 100%;
+  min-height: 100px;
   max-height: 120px;
   border-radius: 15px;
   background-color: rgb(31, 31, 31);
