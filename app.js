@@ -46,7 +46,7 @@ getDocs(productRef)
         columnWidth: '.masonry-item',
         percentPosition: true
       });
-    }, 500);
+    }, 100);
 
     const observer = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
@@ -126,18 +126,26 @@ const sliderItem = () => {
 
 
 function calcularUnd(eNumber) {
-  let numero = eNumber.querySelectorAll('span')[1].textContent || 0;
   return function (e) {
-    const boton = e.target.closest('button');
-    if (!boton) return;
+    const boton = e.target;
+    const contenedor = e.target.closest('.numeros') || eNumber.closest('.numeros');
+
+    if (!boton || !contenedor) return;
+    const numeroElemento = contenedor.querySelectorAll('span')[1];
+    let numero = Number(numeroElemento.textContent) || 0;
+
     if (boton.textContent === '+') {
       numero++;
     } else if (boton.textContent === '-') {
       if (numero > 0) numero--;
     }
-    eNumber.querySelectorAll('span')[1].textContent = numero;
+
+    numeroElemento.textContent = numero;
+    return numero;
   };
 }
+
+
 
 let currentFondoViewCard = null;
 const viewDes = (product) => {
@@ -171,9 +179,6 @@ const viewDes = (product) => {
 };
 
 
-
-
-
 let productosShoping = [];
 function viewCarShop(nombre, img, precio, undNumber) {
   const und = undNumber.querySelectorAll('span')[1].textContent;
@@ -184,7 +189,7 @@ function viewCarShop(nombre, img, precio, undNumber) {
     const nuevoProducto = {
       name: nombre,
       img: img,
-      precio: precio,
+      precio: Number(precio),
       und: Number(und)
     };
     productosShoping.push(nuevoProducto);
@@ -194,23 +199,32 @@ function viewCarShop(nombre, img, precio, undNumber) {
 
 const car = document.querySelector(".car");
 car.addEventListener("click", async () => {
-  const productosGuardados = JSON.parse(localStorage.getItem('productos'));
 
+  const productosGuardados = JSON.parse(localStorage.getItem('productos'));
   const carmenu = document.querySelector("#card-shop-menu").content.cloneNode(true);
-  productosGuardados.forEach(item => {
+
+  productosGuardados.forEach((item,index) => {
     const productMenu = document.querySelector("#product-shoping-menu").content.cloneNode(true);
 
     productMenu.querySelector("img").src = item.img;
     productMenu.querySelector("h3").textContent = item.name;
-    productMenu.querySelector("h3 span").textContent = item.precio;
+    productMenu.querySelector("h3 span").textContent = item.precio * item.und;
     productMenu.querySelectorAll('.numeros span')[1].textContent = item.und;
 
-    const numeros2 = productMenu.querySelector('.numeros');
-    numeros2.addEventListener('click', calcularUnd(numeros2));
+    productMenu.querySelector('.numeros').addEventListener('click', (e) => {
+      const resultado = calcularUnd(productMenu.querySelector('.numeros'))(e);
+      e.target.closest('.shopping-product-info').querySelector("h3 span").textContent = item.precio * resultado;
+
+      item.und = resultado;
+      productosGuardados[index] = item; 
+      localStorage.setItem('productos', JSON.stringify(productosGuardados));
+
+      total(productosGuardados);
+    });
 
     carmenu.querySelector(".car-shoping-body").appendChild(productMenu);
   });
-  
+
   document.body.appendChild(carmenu);
 
   await new Promise(resolve => setTimeout(resolve));
@@ -225,5 +239,13 @@ car.addEventListener("click", async () => {
     }, 500);
   });
 
+  total(productosGuardados);
 });
 
+function total(products) {
+  let totalPrecio = 0;
+  totalPrecio = products.reduce((acumulador, item) => acumulador + (item.precio * item.und), 0);
+
+  const totalPrecioElement = document.querySelector(".car-shoping-footer h3 span");
+  totalPrecioElement.textContent = totalPrecio;
+}
