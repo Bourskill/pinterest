@@ -158,7 +158,7 @@ const viewDes = (product) => {
 
   cardView.querySelector(".d-img img").src = product.imagen[0];
   cardView.querySelector(".d-body h2").textContent = product.nombre;
-  cardView.querySelector(".d-body h3 span").textContent = product.precio;
+  cardView.querySelector(".d-body h3 span").textContent = (product.precio).toLocaleString();
   cardView.querySelector(".d-body p").textContent = product.descripcion;
 
   document.body.appendChild(cardView);
@@ -203,20 +203,21 @@ car.addEventListener("click", async () => {
   const productosGuardados = JSON.parse(localStorage.getItem('productos'));
   const carmenu = document.querySelector("#card-shop-menu").content.cloneNode(true);
 
-  productosGuardados.forEach((item,index) => {
+  productosGuardados.forEach((item, index) => {
     const productMenu = document.querySelector("#product-shoping-menu").content.cloneNode(true);
 
     productMenu.querySelector("img").src = item.img;
     productMenu.querySelector("h3").textContent = item.name;
-    productMenu.querySelector("h3 span").textContent = item.precio * item.und;
+    productMenu.querySelector("h3 span").textContent = (item.precio * item.und).toLocaleString();
+    productMenu.querySelector("h5 span").textContent = item.precio.toLocaleString();
     productMenu.querySelectorAll('.numeros span')[1].textContent = item.und;
 
     productMenu.querySelector('.numeros').addEventListener('click', (e) => {
       const resultado = calcularUnd(productMenu.querySelector('.numeros'))(e);
-      e.target.closest('.shopping-product-info').querySelector("h3 span").textContent = item.precio * resultado;
+      e.target.closest('.shopping-product-info').querySelector("h3 span").textContent = (item.precio * resultado).toLocaleString();
 
       item.und = resultado;
-      productosGuardados[index] = item; 
+      productosGuardados[index] = item;
       localStorage.setItem('productos', JSON.stringify(productosGuardados));
 
       total(productosGuardados);
@@ -247,5 +248,9 @@ function total(products) {
   totalPrecio = products.reduce((acumulador, item) => acumulador + (item.precio * item.und), 0);
 
   const totalPrecioElement = document.querySelector(".car-shoping-footer h3 span");
-  totalPrecioElement.textContent = totalPrecio;
+  totalPrecioElement.textContent = totalPrecio.toLocaleString();
+}
+
+function convertirNumero(cadena) {
+  return parseFloat(cadena.replace(".", "").replace(",", "."));
 }
