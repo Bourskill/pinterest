@@ -228,7 +228,9 @@ h1 {
   outline: 0;
   box-shadow: none;
 }
-
+.flickity-viewport{
+  height: 100% !important;
+}
 
 
 
@@ -289,18 +291,50 @@ h1 {
   margin-top: 15px;
 }
 
+
+
 .car-shop {
   width: 100%;
   height: 10%;
-  opacity: .8;
   font-size: 110%;
   font-weight: 700;
+
+  border: none;
+  outline: none;
+  opacity: .8;
   cursor: pointer;
+
+  transition:background-color 0.1s ease;
+}
+
+.car-shop:hover {
+  color: rgb(255, 255, 255);
+  background-color: #25D366;
+  opacity: 1;
+}
+.car-shop:active {
+  font-size: 100%;
+  color: rgb(255, 255, 255);
+  
+  background-color: #26b159;
+  opacity: 1;
+}
+
+.btn-invisible{
+  background-color: transparent;
+  color: rgb(185, 185, 185);
+ 
+}
+.btn-invisible:hover, .btn-invisible:active {
+  cursor: no-drop;
+  background-color: transparent;
 }
 
 .car-shop i {
   margin-right: 5px;
 }
+
+
 
 .cantidad {
   width: 80%;
@@ -450,7 +484,8 @@ h1 {
 
   display: flex;
   justify-content: space-between;
-  overflow: hidden;
+
+  position: relative;
 }
 
 .shopping-product-img {
@@ -478,7 +513,22 @@ h1 {
   align-items: center;
 }
 
+.trash{
+  background-color: #D42E26;
+  border-radius: 50%;
+  padding: 10px;
 
+  position: absolute;
+  right: -5px;
+
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.trash i{
+ color: #ffffff;
+}
 
 
 

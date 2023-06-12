@@ -69,17 +69,27 @@ getDocs(productRef)
 
 const pintarImg = product => {
   return new Promise((resolve, reject) => {
-    product.forEach(element => {
+    const productosAleatorios = [...product];
+
+    for (let i = productosAleatorios.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [productosAleatorios[i], productosAleatorios[j]] = [productosAleatorios[j], productosAleatorios[i]];
+    }
+
+    productosAleatorios.forEach(element => {
       const imgProduct = document.querySelector("#img-producto").content.cloneNode(true);
       imgProduct.querySelector(".title h3").textContent = element.nombre;
       imgProduct.querySelector(".item img").src = element.imagen[0];
       imgProduct.querySelector(".item").dataset.id = element.id;
       document.querySelector(".masonry").appendChild(imgProduct);
     });
+
     sliderItem();
     resolve();
   });
 }
+
+
 
 
 const sliderItem = () => {
@@ -88,6 +98,7 @@ const sliderItem = () => {
   let flkty;
 
   document.querySelectorAll(".item").forEach(element => {
+
     element.addEventListener("click", ({ currentTarget: { dataset: { id } } }) => {
       const producto = productosArray.find(item => item.id === id);
       fondo.style.display = "flex";
@@ -98,7 +109,8 @@ const sliderItem = () => {
       `).join("");
 
       flkty = new Flickity(preview, {
-        selectedAttraction: 0.06,
+        selectedAttraction: 0.08,
+        friction: 0.4,
         cellAlign: 'center',
         contain: true
       });
@@ -125,6 +137,8 @@ const sliderItem = () => {
 };
 
 
+
+
 function calcularUnd(eNumber) {
   return function (e) {
     const boton = e.target;
@@ -136,14 +150,26 @@ function calcularUnd(eNumber) {
 
     if (boton.textContent === '+') {
       numero++;
+      if (document.querySelector(".car-shop")) {
+        document.querySelector(".car-shop").classList.remove("btn-invisible");
+      }
     } else if (boton.textContent === '-') {
-      if (numero > 0) numero--;
+      if (numero > 0) {
+        numero--;
+      }
     }
 
     numeroElemento.textContent = numero;
+
+    if (numero === 0 && document.querySelector(".car-shop")) {
+      document.querySelector(".car-shop").classList.add("btn-invisible");
+    }
+
+
     return numero;
   };
 }
+
 
 
 
@@ -173,16 +199,24 @@ const viewDes = (product) => {
   });
 
   numeros1.addEventListener('click', calcularUnd(numeros1));
-  btnCar.addEventListener('click', () => viewCarShop(product.nombre, product.imagen[0], product.precio, numeros1));
+ 
+  btnCar.addEventListener('click', () => {
+    if (numeros1.querySelectorAll('span')[1].textContent > 0 ) {
+      viewCarShop(product.nombre, product.imagen[0], product.precio, numeros1);
+    }
+  });
 
   currentFondoViewCard = fondoViewCard;
 };
 
 
-let productosShoping = [];
+
+
+let productosGuardados = JSON.parse(localStorage.getItem('productos')) || [];
+
 function viewCarShop(nombre, img, precio, undNumber) {
   const und = undNumber.querySelectorAll('span')[1].textContent;
-  const productoExistente = productosShoping.find(item => item.name === nombre);
+  const productoExistente = productosGuardados.find(item => item.name === nombre);
   if (productoExistente) {
     productoExistente.und += Number(und);
   } else {
@@ -192,20 +226,18 @@ function viewCarShop(nombre, img, precio, undNumber) {
       precio: Number(precio),
       und: Number(und)
     };
-    productosShoping.push(nuevoProducto);
-    localStorage.setItem('productos', JSON.stringify(productosShoping));
+    productosGuardados.push(nuevoProducto);
+    localStorage.setItem('productos', JSON.stringify(productosGuardados));
   }
 }
 
-const car = document.querySelector(".car");
-car.addEventListener("click", async () => {
 
-  const productosGuardados = JSON.parse(localStorage.getItem('productos'));
+
+function pintarCarrito() {
   const carmenu = document.querySelector("#card-shop-menu").content.cloneNode(true);
 
   productosGuardados.forEach((item, index) => {
     const productMenu = document.querySelector("#product-shoping-menu").content.cloneNode(true);
-
     productMenu.querySelector("img").src = item.img;
     productMenu.querySelector("h3").textContent = item.name;
     productMenu.querySelector("h3 span").textContent = (item.precio * item.und).toLocaleString();
@@ -213,13 +245,25 @@ car.addEventListener("click", async () => {
     productMenu.querySelectorAll('.numeros span')[1].textContent = item.und;
 
     productMenu.querySelector('.numeros').addEventListener('click', (e) => {
+
       const resultado = calcularUnd(productMenu.querySelector('.numeros'))(e);
       e.target.closest('.shopping-product-info').querySelector("h3 span").textContent = (item.precio * resultado).toLocaleString();
-
       item.und = resultado;
       productosGuardados[index] = item;
-      localStorage.setItem('productos', JSON.stringify(productosGuardados));
 
+      if (resultado === 0) {
+        productosGuardados.splice(index, 1);
+        document.querySelectorAll(".shopping-product")[index].remove();
+      }
+
+      localStorage.setItem('productos', JSON.stringify(productosGuardados));
+      total(productosGuardados);
+    });
+
+    productMenu.querySelector('.trash').addEventListener('click', (e) => {
+      productosGuardados.splice(index, 1);
+      localStorage.setItem('productos', JSON.stringify(productosGuardados));
+      document.querySelectorAll(".shopping-product")[index].remove();
       total(productosGuardados);
     });
 
@@ -227,12 +271,21 @@ car.addEventListener("click", async () => {
   });
 
   document.body.appendChild(carmenu);
+}
+
+
+
+
+const car = document.querySelector(".car");
+car.addEventListener("click", async () => {
+  pintarCarrito();
 
   await new Promise(resolve => setTimeout(resolve));
 
   const fondo2 = document.querySelector(".fondo-mentiras");
   const equis3 = document.querySelector('.equis3');
   fondo2.style.opacity = "1";
+
   equis3.addEventListener("click", () => {
     fondo2.style.opacity = "";
     setTimeout(() => {
@@ -243,14 +296,10 @@ car.addEventListener("click", async () => {
   total(productosGuardados);
 });
 
+
+
+
 function total(products) {
-  let totalPrecio = 0;
-  totalPrecio = products.reduce((acumulador, item) => acumulador + (item.precio * item.und), 0);
-
-  const totalPrecioElement = document.querySelector(".car-shoping-footer h3 span");
-  totalPrecioElement.textContent = totalPrecio.toLocaleString();
-}
-
-function convertirNumero(cadena) {
-  return parseFloat(cadena.replace(".", "").replace(",", "."));
+  const totalPrecio = products.reduce((acumulador, item) => acumulador + (item.precio * item.und), 0);
+  document.querySelector(".car-shoping-footer h3 span").textContent = totalPrecio.toLocaleString();
 }
