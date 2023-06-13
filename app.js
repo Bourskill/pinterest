@@ -304,6 +304,12 @@ car.addEventListener("click", async () => {
     }
   });
 
+  document.querySelector(".car-shoping-footer .wpp").addEventListener("touchstart", (e) => {
+    if (e.target.closest(".car-shoping-footer .wpp")) {
+      mostrarPedido();
+    }
+  });
+
   total(productosGuardados);
 });
 
@@ -369,6 +375,12 @@ function mostrarPedido() {
       recolectarYenviar(enviar, selectBarrio, inputPrecio);
     }
   });
+  document.querySelector(".btn-enviar-p").addEventListener("touchstart", (e) => {
+    if (e.target.closest(".btn-enviar-p")) {
+      recolectarYenviar(enviar, selectBarrio, inputPrecio);
+    }
+  });
+  
 
 }
 
