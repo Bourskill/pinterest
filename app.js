@@ -359,11 +359,11 @@ function mostrarPedido() {
   function handleOpcionEntrega(e) {
     e.preventDefault();
     if (e.target.closest(".enviar")) {
-      enviar.classList.toggle("naranja");
+      enviar.classList.add("naranja");
       retirar.classList.remove("naranja");
       direccion.style.display = "flex";
     } else if (e.target.closest(".retirar")) {
-      retirar.classList.toggle("naranja");
+      retirar.classList.add("naranja");
       enviar.classList.remove("naranja");
       direccion.style.display = "";
     }
@@ -374,6 +374,7 @@ function mostrarPedido() {
 
 
   function handleBtnEnviarClick(e) {
+    alert("hola")
     e.preventDefault();
     if (e.target.closest(".btn-enviar-p")) {
       recolectarYenviar(enviar, selectBarrio, inputPrecio);
