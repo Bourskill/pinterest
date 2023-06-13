@@ -303,6 +303,8 @@ car.addEventListener("click", async () => {
       mostrarPedido();
     }
   }
+
+  const wppElement = document.querySelector(".car-shoping-footer .wpp");
   
   wppElement.addEventListener("click", handleWppClick);
   wppElement.addEventListener("touchstart", handleWppClick);
@@ -355,6 +357,7 @@ function mostrarPedido() {
   const enviar = opcionEntrega.querySelector(".enviar");
 
   function handleOpcionEntrega(e) {
+    e.preventDefault();
     if (e.target.closest(".enviar")) {
       enviar.classList.toggle("naranja");
       retirar.classList.remove("naranja");
@@ -371,6 +374,7 @@ function mostrarPedido() {
 
 
   function handleBtnEnviarClick(e) {
+    e.preventDefault();
     if (e.target.closest(".btn-enviar-p")) {
       recolectarYenviar(enviar, selectBarrio, inputPrecio);
     }
