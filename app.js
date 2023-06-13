@@ -375,6 +375,9 @@ function mostrarPedido() {
   document.body.appendChild(clone);
 }
 
+
+
+
 function recolectarYenviar() {
   const selectBarrio2 = document.getElementById("barrio");
   const enviar2 = document.querySelector(".enviar");
@@ -415,8 +418,7 @@ Total: .................. $ ${totalApagar}
   
 --------------------------------`;
 
-  console.log(mensaje);
-
+console.log(mensaje)
   const numeroTelefono = '+573005267747';
   const whatsappUrl = 'https://api.whatsapp.com/send?phone=' + numeroTelefono + '&text=' + encodeURIComponent(mensaje);
   window.open(whatsappUrl, '_blank');
