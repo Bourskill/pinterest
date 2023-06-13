@@ -632,7 +632,7 @@ h1 {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  z-index: 99999;
+  z-index: 999999999999;
 }
 
 .wpp-pedido * {
@@ -666,11 +666,13 @@ h1 {
   cursor: pointer;
 }
 
-.retirar:hover,
+/* .retirar:hover,
 .enviar:hover {
+  
+} */
+.naranja{
   background-color: #ffae00;
 }
-
 .retirar p,
 .enviar p {
   margin-top: 5px;
@@ -678,7 +680,7 @@ h1 {
 }
 
 .direccion {
-  display: flex;
+  display: none;
   margin-bottom: 20px;
 }
 

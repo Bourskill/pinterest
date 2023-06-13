@@ -199,9 +199,9 @@ const viewDes = (product) => {
   });
 
   numeros1.addEventListener('click', calcularUnd(numeros1));
- 
+
   btnCar.addEventListener('click', () => {
-    if (numeros1.querySelectorAll('span')[1].textContent > 0 ) {
+    if (numeros1.querySelectorAll('span')[1].textContent > 0) {
       viewCarShop(product.nombre, product.imagen[0], product.precio, numeros1);
     }
   });
@@ -237,6 +237,7 @@ function pintarCarrito() {
   const carmenu = document.querySelector("#card-shop-menu").content.cloneNode(true);
 
   productosGuardados.forEach((item, index) => {
+
     const productMenu = document.querySelector("#product-shoping-menu").content.cloneNode(true);
     productMenu.querySelector("img").src = item.img;
     productMenu.querySelector("h3").textContent = item.name;
@@ -256,6 +257,7 @@ function pintarCarrito() {
         document.querySelectorAll(".shopping-product")[index].remove();
       }
 
+      item.total = (item.precio * item.und).toLocaleString();
       localStorage.setItem('productos', JSON.stringify(productosGuardados));
       total(productosGuardados);
     });
@@ -266,6 +268,9 @@ function pintarCarrito() {
       document.querySelectorAll(".shopping-product")[index].remove();
       total(productosGuardados);
     });
+
+    item.total = (item.precio * item.und).toLocaleString();
+    localStorage.setItem('productos', JSON.stringify(productosGuardados));
 
     carmenu.querySelector(".car-shoping-body").appendChild(productMenu);
   });
@@ -293,6 +298,12 @@ car.addEventListener("click", async () => {
     }, 500);
   });
 
+  document.querySelector(".car-shoping-footer .wpp").addEventListener("click", (e) => {
+    if (e.target.closest(".car-shoping-footer .wpp")) {
+      mostrarPedido();
+    }
+  });
+
   total(productosGuardados);
 });
 
@@ -308,26 +319,100 @@ function total(products) {
 
 
 
-const selectBarrio = document.getElementById("barrio");
-const inputPrecio = document.getElementById("precio");
+function mostrarPedido() {
+  const template = document.getElementById("wpp-pedido");
+  const clone = document.importNode(template.content, true);
+  document.body.appendChild(clone);
 
-const preciosBarrios = {
-  barrio1: "5.000",
-  barrio2: "7.000",
-  barrio3: "10.000",
-  // Agrega más barrios y precios según tus necesidades
-};
+  const preciosBarrios = {
+    barrio1: "5.000",
+    barrio2: "7.000",
+    barrio3: "10.000"
+  };
 
-// Generar las opciones del select
-for (const barrio in preciosBarrios) {
-  const option = document.createElement("option");
-  option.value = barrio;
-  option.textContent = barrio;
-  selectBarrio.appendChild(option);
+  const selectBarrio = document.getElementById("barrio");
+  const inputPrecio = document.getElementById("precio");
+  const direccion = document.querySelector(".direccion");
+
+  for (const barrio in preciosBarrios) {
+    const option = document.createElement("option");
+    option.value = barrio;
+    option.textContent = barrio;
+    selectBarrio.appendChild(option);
+  }
+
+  selectBarrio.addEventListener("change", function () {
+    const barrioSeleccionado = selectBarrio.value;
+    const precioDomicilio = preciosBarrios[barrioSeleccionado] || 0;
+    inputPrecio.value = precioDomicilio;
+  });
+
+
+  const opcionEntrega = document.querySelector(".op-entrega");
+  const retirar = opcionEntrega.querySelector(".retirar");
+  const enviar = opcionEntrega.querySelector(".enviar");
+
+  opcionEntrega.addEventListener("click", (e) => {
+    if (e.target.closest(".enviar")) {
+      enviar.classList.toggle("naranja");
+      retirar.classList.remove("naranja");
+      direccion.style.display = "flex";
+    } else if (e.target.closest(".retirar")) {
+      retirar.classList.toggle("naranja");
+      enviar.classList.remove("naranja");
+      direccion.style.display = "";
+    }
+  });
+
+  document.querySelector(".btn-enviar-p").addEventListener("click", (e) => {
+    if (e.target.closest(".btn-enviar-p")) {
+      recolectarYenviar(enviar, selectBarrio, inputPrecio);
+    }
+  });
+
 }
 
-selectBarrio.addEventListener("change", function() {
-  const barrioSeleccionado = selectBarrio.value;
-  const precioDomicilio = preciosBarrios[barrioSeleccionado] || 0;
-  inputPrecio.value = precioDomicilio;
-});
+
+function recolectarYenviar(enviar, selectBarrio, inputPrecio) {
+  const nombreInput = document.querySelector(".nombre").value;
+  const telefonoInput = document.querySelector(".telefono").value;
+  const nomenclatura = document.getElementById("direccion").value;
+  let totalApagar = document.querySelector(".car-shoping-footer h3 span").textContent;
+
+  const lineasProductos = productosGuardados.map(item => `${item.und} x ${item.name} ....... $ ${item.total}`).join("\n\n");
+
+  let enviarA = "";
+  if (enviar.classList.contains("naranja")) {
+    totalApagar = ((Number(totalApagar) + Number(inputPrecio.value))*1000).toLocaleString();
+
+    enviarA = `
+
+ENVIAR A:
+Barrio: ${selectBarrio.value}
+Valor: ${inputPrecio.value}
+Dirección: ${nomenclatura}
+`;
+  }
+
+  const mensaje = `Hola, quisiera hacer un pedido.${enviarA}
+  
+Nombre: ${nombreInput}
+Teléfono: ${telefonoInput}
+  
+--------------------------------
+  
+${lineasProductos}
+  
+--------------------------------
+  
+Total: .................. $ ${totalApagar}
+  
+--------------------------------`;
+
+console.log(mensaje)
+
+  const numeroTelefono = '+573005267747';
+  const whatsappUrl = 'https://api.whatsapp.com/send?phone=' + numeroTelefono + '&text=' + encodeURIComponent(mensaje);
+  window.open(whatsappUrl, '_blank');
+}
+
