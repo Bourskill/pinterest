@@ -323,12 +323,9 @@ function total(products) {
 
 
 
-async function mostrarPedido() {
-  const template = document.getElementById("wpp-pedido");
-  const clone = document.importNode(template.content, true);
+function mostrarPedido() {
+  const clone = document.getElementById("wpp-pedido").content.cloneNode(true);
   document.body.appendChild(clone);
-
-  await new Promise(resolve => setTimeout(resolve));
 
   const preciosBarrios = {
     barrio1: "5.000",
@@ -353,11 +350,7 @@ async function mostrarPedido() {
     inputPrecio.value = precioDomicilio;
   });
 
-
  
-  const retirar = opcionEntrega.querySelector(".retirar");
-  const enviar = opcionEntrega.querySelector(".enviar");
-
   function handleOpcionEntrega(e) {
     e.preventDefault();
     if (e.target.closest(".enviar")) {
@@ -372,9 +365,10 @@ async function mostrarPedido() {
   }
 
   const opcionEntrega = document.querySelector(".wpp-pedido .op-entrega");
+  const retirar = opcionEntrega.querySelector(".retirar");
+  const enviar = opcionEntrega.querySelector(".enviar");
   opcionEntrega.addEventListener("click", handleOpcionEntrega);
   opcionEntrega.addEventListener("touchstart", handleOpcionEntrega, { passive: true });
-
 
   function handleBtnEnviarClick(e) {
     alert("hola")
@@ -388,9 +382,9 @@ async function mostrarPedido() {
   btnEnviarP.addEventListener("click", handleBtnEnviarClick);
   btnEnviarP.addEventListener("touchstart", handleBtnEnviarClick, { passive: true });
 
-
-
 }
+
+
 
 
 function recolectarYenviar(enviar, selectBarrio, inputPrecio) {
