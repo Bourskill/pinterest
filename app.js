@@ -165,7 +165,6 @@ function calcularUnd(eNumber) {
       document.querySelector(".car-shop").classList.add("btn-invisible");
     }
 
-
     return numero;
   };
 }
@@ -325,7 +324,7 @@ function total(products) {
 
 function mostrarPedido() {
   const clone = document.getElementById("wpp-pedido").content.cloneNode(true);
-  document.body.appendChild(clone);
+  
 
   const preciosBarrios = {
     barrio1: "5.000",
@@ -333,9 +332,9 @@ function mostrarPedido() {
     barrio3: "10.000"
   };
 
-  const selectBarrio = document.getElementById("barrio");
-  const inputPrecio = document.getElementById("precio");
-  const direccion = document.querySelector(".direccion");
+  const selectBarrio = clone.getElementById("barrio");
+  const inputPrecio = clone.getElementById("precio");
+  const direccion = clone.querySelector(".direccion");
 
   for (const barrio in preciosBarrios) {
     const option = document.createElement("option");
@@ -364,7 +363,7 @@ function mostrarPedido() {
     }
   }
 
-  const opcionEntrega = document.querySelector(".wpp-pedido .op-entrega");
+  const opcionEntrega = clone.querySelector(".wpp-pedido .op-entrega");
   const retirar = opcionEntrega.querySelector(".retirar");
   const enviar = opcionEntrega.querySelector(".enviar");
   opcionEntrega.addEventListener("click", handleOpcionEntrega);
@@ -378,10 +377,10 @@ function mostrarPedido() {
     }
   }
 
-  const btnEnviarP = document.querySelector(".wpp-pedido .btn-enviar-p");
+  const btnEnviarP = clone.querySelector(".wpp-pedido .btn-enviar-p");
   btnEnviarP.addEventListener("click", handleBtnEnviarClick);
   btnEnviarP.addEventListener("touchstart", handleBtnEnviarClick, { passive: true });
-
+  document.body.appendChild(clone);
 }
 
 
