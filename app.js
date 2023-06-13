@@ -298,18 +298,14 @@ car.addEventListener("click", async () => {
     }, 500);
   });
 
-  document.querySelector(".car-shoping-footer .wpp").addEventListener("click", (e) => {
+  function handleWppClick(e) {
     if (e.target.closest(".car-shoping-footer .wpp")) {
       mostrarPedido();
     }
-  });
-
-  document.querySelector(".car-shoping-footer .wpp").addEventListener("touchstart", (e) => {
-    if (e.target.closest(".car-shoping-footer .wpp")) {
-      mostrarPedido();
-    }
-  });
-
+  }
+  
+  wppElement.addEventListener("click", handleWppClick);
+  wppElement.addEventListener("touchstart", handleWppClick);
   total(productosGuardados);
 });
 
@@ -358,7 +354,7 @@ function mostrarPedido() {
   const retirar = opcionEntrega.querySelector(".retirar");
   const enviar = opcionEntrega.querySelector(".enviar");
 
-  opcionEntrega.addEventListener("click", (e) => {
+  function handleOpcionEntrega(e) {
     if (e.target.closest(".enviar")) {
       enviar.classList.toggle("naranja");
       retirar.classList.remove("naranja");
@@ -368,19 +364,23 @@ function mostrarPedido() {
       enviar.classList.remove("naranja");
       direccion.style.display = "";
     }
-  });
+  }
 
-  document.querySelector(".btn-enviar-p").addEventListener("click", (e) => {
+  opcionEntrega.addEventListener("click", handleOpcionEntrega);
+  opcionEntrega.addEventListener("touchstart", handleOpcionEntrega);
+
+
+  function handleBtnEnviarClick(e) {
     if (e.target.closest(".btn-enviar-p")) {
       recolectarYenviar(enviar, selectBarrio, inputPrecio);
     }
-  });
-  document.querySelector(".btn-enviar-p").addEventListener("touchstart", (e) => {
-    if (e.target.closest(".btn-enviar-p")) {
-      recolectarYenviar(enviar, selectBarrio, inputPrecio);
-    }
-  });
+  }
   
+  const btnEnviarP = document.querySelector(".btn-enviar-p");
+  btnEnviarP.addEventListener("click", handleBtnEnviarClick);
+  btnEnviarP.addEventListener("touchstart", handleBtnEnviarClick);
+  
+
 
 }
 
@@ -395,7 +395,7 @@ function recolectarYenviar(enviar, selectBarrio, inputPrecio) {
 
   let enviarA = "";
   if (enviar.classList.contains("naranja")) {
-    totalApagar = ((Number(totalApagar) + Number(inputPrecio.value))*1000).toLocaleString();
+    totalApagar = ((Number(totalApagar) + Number(inputPrecio.value)) * 1000).toLocaleString();
 
     enviarA = `
 
@@ -421,7 +421,7 @@ Total: .................. $ ${totalApagar}
   
 --------------------------------`;
 
-console.log(mensaje)
+  console.log(mensaje)
 
   const numeroTelefono = '+573005267747';
   const whatsappUrl = 'https://api.whatsapp.com/send?phone=' + numeroTelefono + '&text=' + encodeURIComponent(mensaje);
