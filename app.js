@@ -307,7 +307,7 @@ car.addEventListener("click", async () => {
   const wppElement = document.querySelector(".car-shoping-footer .wpp");
 
   wppElement.addEventListener("click", handleWppClick);
-  wppElement.addEventListener("touchstart", handleWppClick);
+  wppElement.addEventListener("touchstart", handleWppClick, { passive: true });
   total(productosGuardados);
 });
 
@@ -354,7 +354,7 @@ async function mostrarPedido() {
   });
 
 
-  const opcionEntrega = document.querySelector(".op-entrega");
+ 
   const retirar = opcionEntrega.querySelector(".retirar");
   const enviar = opcionEntrega.querySelector(".enviar");
 
@@ -371,8 +371,9 @@ async function mostrarPedido() {
     }
   }
 
+  const opcionEntrega = document.querySelector(".wpp-pedido .op-entrega");
   opcionEntrega.addEventListener("click", handleOpcionEntrega);
-  opcionEntrega.addEventListener("touchstart", handleOpcionEntrega);
+  opcionEntrega.addEventListener("touchstart", handleOpcionEntrega, { passive: true });
 
 
   function handleBtnEnviarClick(e) {
@@ -383,9 +384,9 @@ async function mostrarPedido() {
     }
   }
 
-  const btnEnviarP = document.querySelector(".btn-enviar-p");
+  const btnEnviarP = document.querySelector(".wpp-pedido .btn-enviar-p");
   btnEnviarP.addEventListener("click", handleBtnEnviarClick);
-  btnEnviarP.addEventListener("touchstart", handleBtnEnviarClick);
+  btnEnviarP.addEventListener("touchstart", handleBtnEnviarClick, { passive: true });
 
 
 
