@@ -303,3 +303,31 @@ function total(products) {
   const totalPrecio = products.reduce((acumulador, item) => acumulador + (item.precio * item.und), 0);
   document.querySelector(".car-shoping-footer h3 span").textContent = totalPrecio.toLocaleString();
 }
+
+
+
+
+
+const selectBarrio = document.getElementById("barrio");
+const inputPrecio = document.getElementById("precio");
+
+const preciosBarrios = {
+  barrio1: "5.000",
+  barrio2: "7.000",
+  barrio3: "10.000",
+  // Agrega más barrios y precios según tus necesidades
+};
+
+// Generar las opciones del select
+for (const barrio in preciosBarrios) {
+  const option = document.createElement("option");
+  option.value = barrio;
+  option.textContent = barrio;
+  selectBarrio.appendChild(option);
+}
+
+selectBarrio.addEventListener("change", function() {
+  const barrioSeleccionado = selectBarrio.value;
+  const precioDomicilio = preciosBarrios[barrioSeleccionado] || 0;
+  inputPrecio.value = precioDomicilio;
+});

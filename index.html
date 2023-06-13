@@ -38,7 +38,7 @@
       <span>Descripcion</span>
     </button>
   </div>
-  
+
 
   <template id="img-producto">
     <div class="masonry-item">
@@ -89,7 +89,7 @@
         </div>
         <div class="car-shoping-body"></div>
         <div class="car-shoping-footer">
-          <h3>Total final: $<span>10.000</span></h3>
+          <h3>Total a pagar: $<span>10.000</span></h3>
           <button>
             <i class="fa-brands fa-whatsapp"></i>
             <!-- <span>hacer pedido</span> -->
@@ -121,6 +121,39 @@
       </button>
     </div>
   </template>
+
+
+
+
+ <div class="wpp-pedido">
+  <div class="op-entrega">
+    <div class="retirar">
+      <h3>Lo paso a retirar</h3>
+      <p><i class="fa-solid fa-shop"></i> B/Uribe - Calle 9 # 6-72</p>
+    </div>
+    <div class="enviar">
+      <h3>Lo quiero recibir</h3>
+      <p><i class="fa-solid fa-location-dot"></i> En la puerta de mi casa</p>
+    </div>
+  </div>
+
+  <div class="direccion">
+    <div class="opcion">
+      <select id="barrio">
+        <option value="0">B/</option>
+      </select>
+    </div>
+    <input type="text" id="precio" placeholder="Precio" readonly>
+    <input type="text" id="direccion" placeholder="Ingresa tu dirección aquí">
+  </div>
+
+  <input type="text" class="nombre" placeholder="Nombre">
+  <input type="text" class="telefono" placeholder="Teléfono">
+
+  <div class="btn-enviar-p">
+    <h2> <i class="fa-brands fa-whatsapp"></i> Enviar pedido</h2>
+  </div>
+</div>
 
 
   <center>
