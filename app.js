@@ -305,7 +305,7 @@ car.addEventListener("click", async () => {
   }
 
   const wppElement = document.querySelector(".car-shoping-footer .wpp");
-  
+
   wppElement.addEventListener("click", handleWppClick);
   wppElement.addEventListener("touchstart", handleWppClick);
   total(productosGuardados);
@@ -323,10 +323,12 @@ function total(products) {
 
 
 
-function mostrarPedido() {
+async function mostrarPedido() {
   const template = document.getElementById("wpp-pedido");
   const clone = document.importNode(template.content, true);
   document.body.appendChild(clone);
+
+  await new Promise(resolve => setTimeout(resolve));
 
   const preciosBarrios = {
     barrio1: "5.000",
@@ -380,11 +382,11 @@ function mostrarPedido() {
       recolectarYenviar(enviar, selectBarrio, inputPrecio);
     }
   }
-  
+
   const btnEnviarP = document.querySelector(".btn-enviar-p");
   btnEnviarP.addEventListener("click", handleBtnEnviarClick);
   btnEnviarP.addEventListener("touchstart", handleBtnEnviarClick);
-  
+
 
 
 }
