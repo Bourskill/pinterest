@@ -84,6 +84,7 @@ h1 {
 .descripcion-btn:hover,
 .car:hover,
 .equis3:hover {
+
   opacity: 1;
   transform: scale(1.08);
 }
@@ -312,6 +313,7 @@ h1 {
   color: rgb(255, 255, 255);
   background-color: #25D366;
   opacity: 1;
+
 }
 
 .car-shop:active {
@@ -330,6 +332,7 @@ h1 {
 
 .btn-invisible:hover,
 .btn-invisible:active {
+
   cursor: no-drop;
   background-color: transparent;
 }
@@ -469,6 +472,7 @@ h1 {
 }
 
 .car-shoping-footer button:hover {
+
   opacity: 1;
 }
 
@@ -670,9 +674,10 @@ h1 {
 .enviar:hover {
   
 } */
-.naranja{
+.naranja {
   background-color: #ffae00;
 }
+
 .retirar p,
 .enviar p {
   margin-top: 5px;
@@ -728,5 +733,6 @@ h1 {
 }
 
 .btn-enviar-p:hover {
+
   background-color: #25D366;
 }
