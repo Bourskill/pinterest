@@ -201,19 +201,22 @@ const viewDes = (product) => {
 
   btnCar.addEventListener('click', () => {
     if (numeros1.querySelectorAll('span')[1].textContent > 0) {
-      viewCarShop(product.nombre, product.imagen[0], product.precio, numeros1);
+      viewCarShop(product.nombre, product.imagen[0], product.precio, numeros1, productosGuardados);
     }
   });
+  
 
   currentFondoViewCard = fondoViewCard;
 };
 
 
-
-
+// 
 let productosGuardados = JSON.parse(localStorage.getItem('productos')) || [];
+productosGuardados = productosGuardados.filter(item => item !== null);
+localStorage.setItem('productos', JSON.stringify(productosGuardados));
 
-function viewCarShop(nombre, img, precio, undNumber) {
+
+function viewCarShop(nombre, img, precio, undNumber, productosGuardados) {
   const und = undNumber.querySelectorAll('span')[1].textContent;
   const productoExistente = productosGuardados.find(item => item.name === nombre);
   if (productoExistente) {
@@ -228,25 +231,22 @@ function viewCarShop(nombre, img, precio, undNumber) {
     productosGuardados.push(nuevoProducto);
     localStorage.setItem('productos', JSON.stringify(productosGuardados));
   }
+  console.log(productosGuardados)
 }
-
-
 
 function pintarCarrito(productosGuardados) {
   const carmenu = document.querySelector("#card-shop-menu").content.cloneNode(true);
 
   productosGuardados.forEach((item, index) => {
-
     const productMenu = document.querySelector("#product-shoping-menu").content.cloneNode(true);
-    productMenu.querySelector("img").src = item.img;
+   
     productMenu.querySelector("h3").textContent = item.name;
+    productMenu.querySelector("img").src = item.img;
     productMenu.querySelector("h3 span").textContent = (item.precio * item.und).toLocaleString();
     productMenu.querySelector("h5 span").textContent = item.precio.toLocaleString();
     productMenu.querySelectorAll('.numeros span')[1].textContent = item.und;
 
-
     productMenu.querySelector('.numeros').addEventListener('click', (e) => {
-
       const resultado = calcularUnd(productMenu.querySelector('.numeros'))(e);
       e.target.closest('.shopping-product-info').querySelector("h3 span").textContent = (item.precio * resultado).toLocaleString();
       item.und = resultado;
@@ -262,8 +262,7 @@ function pintarCarrito(productosGuardados) {
       total(productosGuardados);
     });
 
-
-    productMenu.querySelector('.trash').addEventListener('click', (e) => {
+    productMenu.querySelector('.trash').addEventListener('click', () => {
       productosGuardados.splice(index, 1);
       localStorage.setItem('productos', JSON.stringify(productosGuardados));
       document.querySelectorAll(".shopping-product")[index].remove();
@@ -280,40 +279,39 @@ function pintarCarrito(productosGuardados) {
 }
 
 
+document.querySelector(".car").addEventListener("click", async (e) => {
+
+  if (e.target.closest(".car")) {
+    pintarCarrito(productosGuardados);
+
+    await new Promise(resolve => setTimeout(resolve));
+
+    const fondo2 = document.querySelector(".fondo-mentiras");
+    const equis3 = document.querySelector('.equis3');
+    fondo2.style.opacity = "1";
+
+    equis3.addEventListener("click", () => {
+      fondo2.style.opacity = "";
+      setTimeout(() => {
+        fondo2.remove();
+      }, 500);
+    });
+
+    const handleWppClick = (e) => {
+      if (e.target.closest(".car-shoping-footer .wpp")) {
+        mostrarPedido();
+      }
+    };
+
+    const wppElement = document.querySelector(".car-shoping-footer .wpp");
+
+    wppElement.addEventListener("click", handleWppClick);
+    wppElement.addEventListener("touchstart", handleWppClick);
+    total(productosGuardados);
+  }
 
 
-const car = document.querySelector(".car");
-car.addEventListener("click", async () => {
-  pintarCarrito(productosGuardados);
-
-  await new Promise(resolve => setTimeout(resolve));
-
-  const fondo2 = document.querySelector(".fondo-mentiras");
-  const equis3 = document.querySelector('.equis3');
-  fondo2.style.opacity = "1";
-
-  equis3.addEventListener("click", () => {
-    fondo2.style.opacity = "";
-    setTimeout(() => {
-      fondo2.remove();
-    }, 500);
-  });
-
-  const handleWppClick = (e) => {
-    if (e.target.closest(".car-shoping-footer .wpp")) {
-      mostrarPedido();
-    }
-  };
-
-  const wppElement = document.querySelector(".car-shoping-footer .wpp");
-
-  wppElement.addEventListener("click", handleWppClick);
-  wppElement.addEventListener("touchstart", handleWppClick);
-  total(productosGuardados);
 });
-
-
-
 
 function total(products) {
   const totalPrecio = products.reduce((acumulador, item) => acumulador + (item.precio * item.und), 0);
@@ -324,7 +322,7 @@ function total(products) {
 
 function mostrarPedido() {
   const clone = document.getElementById("wpp-pedido").content.cloneNode(true);
-  
+
   const preciosBarrios = {
     barrio1: "5.000",
     barrio2: "7.000",
@@ -347,7 +345,7 @@ function mostrarPedido() {
     inputPrecio.value = precioDomicilio;
   });
 
-  const opcionEntrega = clone.querySelector(".op-entrega");
+  const opcionEntrega = clone.querySelector(".wpp-pedido .op-entrega");
   const retirar = opcionEntrega.querySelector(".retirar");
   const enviar = opcionEntrega.querySelector(".enviar");
 
@@ -361,12 +359,12 @@ function mostrarPedido() {
 
   opcionEntrega.addEventListener("click", handleOpcionEntrega);
 
-  const btnEnviarP = clone.querySelector(".btn-enviar-p");
+  const btnEnviarP = clone.querySelector(".wpp-pedido .btn-enviar-p");
 
   function handleBtnEnviarClick(e) {
     e.preventDefault();
     if (e.target.closest(".btn-enviar-p")) {
-      recolectarYenviar(productosGuardados);
+      recolectarYenviar();
     }
   }
 
@@ -374,14 +372,13 @@ function mostrarPedido() {
   document.body.appendChild(clone);
 }
 
-function recolectarYenviar(productosGuardados) {
-  const selectBarrio2 = document.querySelector("#barrio").value;
+function recolectarYenviar() {
+  const selectBarrio2 = document.querySelector("#barrio");
   const enviar2 = document.querySelector(".enviar");
-  const inputPrecio2 = document.querySelector("#precio").value;
-  
-  const nombreInput = document.querySelector("#nombre").value;
-  const telefonoInput = document.querySelector("#telefono").value;
+  const inputPrecio2 = document.querySelector("#precio");
 
+  const nombreInput = document.querySelector(".nombre").value;
+  const telefonoInput = document.querySelector(".telefono").value;
   const nomenclatura = document.querySelector("#direccion").value;
   let totalApagar = document.querySelector(".car-shoping-footer h3 span").textContent;
 
@@ -389,38 +386,33 @@ function recolectarYenviar(productosGuardados) {
 
   let enviarA = "";
   if (enviar2.classList.contains("naranja")) {
-    totalApagar = ((Number(totalApagar) + Number(inputPrecio2)) * 1000).toLocaleString();
+    totalApagar = ((Number(totalApagar) + Number(inputPrecio2.value)) * 1000).toLocaleString();
 
     enviarA = `
     
 ENVIAR A:
-Barrio: ${selectBarrio2}
-Valor: ${inputPrecio2}
+Barrio: ${selectBarrio2.value}
+Valor: ${inputPrecio2.value}
 Dirección: ${nomenclatura}
 `;
   }
 
- 
-
-  setTimeout(() => {
-    let mensaje = `Hola, quisiera hacer un pedido.${enviarA}
+  let mensaje = `Hola, quisiera hacer un pedido.${enviarA}
   
-    Nombre: ${nombreInput}
-    Teléfono: ${telefonoInput}
-      
-    --------------------------------------------
-      
-    ${lineasProductos}
-      
-    --------------------------------------------
-      
-    Total: .................. $ ${totalApagar}
-      
-    --------------------------------------------`;
-    
-      alert(mensaje);
-      console.log(nombreInput, telefonoInput, "hola");
-  }, 500);
+Nombre: ${nombreInput}
+Teléfono: ${telefonoInput}
+  
+--------------------------------------------
+  
+${lineasProductos}
+  
+--------------------------------------------
+  
+Total: .................. $ ${totalApagar}
+  
+--------------------------------------------`;
+
+  alert(mensaje);
   // const numeroTelefono = '+573005267747';
   // const whatsappUrl = 'https://api.whatsapp.com/send?phone=' + numeroTelefono + '&text=' + encodeURIComponent(mensaje);
   // window.open(whatsappUrl, '_blank');
@@ -431,118 +423,3 @@ Dirección: ${nomenclatura}
 
 
 
-
-
-
-    
-
-
-// function mostrarPedido() {
-//   const clone = document.getElementById("wpp-pedido").content.cloneNode(true);
-  
-
-//   const preciosBarrios = {
-//     barrio1: "5.000",
-//     barrio2: "7.000",
-//     barrio3: "10.000"
-//   };
-
-//   const selectBarrio = clone.getElementById("barrio");
-//   const inputPrecio = clone.getElementById("precio");
-//   const direccion = clone.querySelector(".direccion");
-
-//   for (const barrio in preciosBarrios) {
-//     const option = document.createElement("option");
-//     option.value = barrio;
-//     option.textContent = barrio;
-//     selectBarrio.appendChild(option);
-//   }
-
-//   selectBarrio.addEventListener("change", function () {
-//     const barrioSeleccionado = selectBarrio.value;
-//     const precioDomicilio = preciosBarrios[barrioSeleccionado] || 0;
-//     inputPrecio.value = precioDomicilio;
-//   });
-
- 
-//   function handleOpcionEntrega(e) {
-//     e.preventDefault();
-//     if (e.target.closest(".enviar")) {
-//       enviar.classList.add("naranja");
-//       retirar.classList.remove("naranja");
-//       direccion.style.display = "flex";
-//     } else if (e.target.closest(".retirar")) {
-//       retirar.classList.add("naranja");
-//       enviar.classList.remove("naranja");
-//       direccion.style.display = "";
-//     }
-//   }
-
-//   const opcionEntrega = clone.querySelector(".wpp-pedido .op-entrega");
-//   const retirar = opcionEntrega.querySelector(".retirar");
-//   const enviar = opcionEntrega.querySelector(".enviar");
-//   opcionEntrega.addEventListener("click", handleOpcionEntrega);
-//   opcionEntrega.addEventListener("touchstart", handleOpcionEntrega, { passive: true });
-
-//   function handleBtnEnviarClick(e) {
-//     if (e.target.closest(".btn-enviar-p")) {
-//       recolectarYenviar();
-//     }
-//   }
-
-//   const btnEnviarP = clone.querySelector(".wpp-pedido .btn-enviar-p");
-//   btnEnviarP.addEventListener("click", handleBtnEnviarClick);
-//   btnEnviarP.addEventListener("touchstart", handleBtnEnviarClick, { passive: true });
-//   document.body.appendChild(clone);
-// }
-
-
-
-
-// function recolectarYenviar() {
-
-//   const selectBarrio2 = document.getElementById("barrio");
-//   const enviar2 = document.querySelector(".enviar");
-//   const inputPrecio2 = document.getElementById("precio");
-
-//   const nombreInput = document.querySelector(".nombre").value;
-//   const telefonoInput = document.querySelector(".telefono").value;
-//   const nomenclatura = document.getElementById("direccion").value;
-//   let totalApagar = document.querySelector(".car-shoping-footer h3 span").textContent;
-
-//   const lineasProductos = productosGuardados.map(item => `${item.und} x ${item.name} ....... $ ${item.total}`).join("\n\n");
-
-//   let enviarA = "";
-//   if (enviar2.classList.contains("naranja")) {
-//     totalApagar = ((Number(totalApagar) + Number(inputPrecio2.value)) * 1000).toLocaleString();
-
-//     enviarA = `
-
-// ENVIAR A:
-// Barrio: ${selectBarrio2.value}
-// Valor: ${inputPrecio2.value}
-// Dirección: ${nomenclatura}
-// `;
-//   }
-
-//   const mensaje = `Hola, quisiera hacer un pedido.${enviarA}
-  
-// Nombre: ${nombreInput}
-// Teléfono: ${telefonoInput}
-  
-// --------------------------------
-  
-// ${lineasProductos}
-  
-// --------------------------------
-  
-// Total: .................. $ ${totalApagar}
-  
-// --------------------------------`;
-
-//   console.log(mensaje)
-
-//   const numeroTelefono = '+573005267747';
-//   const whatsappUrl = 'https://api.whatsapp.com/send?phone=' + numeroTelefono + '&text=' + encodeURIComponent(mensaje);
-//   window.open(whatsappUrl, '_blank');
-// }
