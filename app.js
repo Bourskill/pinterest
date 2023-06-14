@@ -320,6 +320,9 @@ function total(products) {
 
 
 
+
+
+
 function mostrarPedido() {
   const clone = document.getElementById("wpp-pedido").content.cloneNode(true);
 
@@ -363,9 +366,15 @@ function mostrarPedido() {
   function handleBtnEnviarClick(e) {
     e.preventDefault();
     if (e.target.closest(".btn-enviar-p")) {
-      const nombreInput = document.querySelector(".nombre");
-      const telefonoInput = document.querySelector(".telefono");
-      recolectarYenviar(nombreInput,telefonoInput);
+
+      const form = document.querySelector("#wpp-pedido-form");
+      const formData = new FormData(form);
+      const nombreValue = formData.get("nombre");
+      const telefonoValue = formData.get("telefono");
+
+
+      console.log(nombreValue, telefonoValue);
+      recolectarYenviar(nombreValue, telefonoValue);
     }
   }
 
@@ -373,7 +382,7 @@ function mostrarPedido() {
   document.body.appendChild(clone);
 }
 
-function recolectarYenviar(nombreInput,telefonoInput) {
+function recolectarYenviar(nombreInput, telefonoInput) {
   const selectBarrio2 = document.querySelector("#barrio");
   const enviar2 = document.querySelector(".enviar");
   const inputPrecio2 = document.querySelector("#precio");
@@ -399,8 +408,8 @@ Dirección: ${nomenclatura}
 
   let mensaje = `Hola, quisiera hacer un pedido.${enviarA}
   
-Nombre: ${nombreInput.value}
-Teléfono: ${telefonoInput.value}
+Nombre: ${nombreInput}
+Teléfono: ${telefonoInput}
   
 --------------------------------------------
   
@@ -412,7 +421,7 @@ Total: .................. $ ${totalApagar}
   
 --------------------------------------------`;
 
-  alert(`Nombre: ${nombreInput.value}\nTeléfono: ${telefonoInput.value}`);
+  alert(`Nombre: ${nombreInput}\nTeléfono: ${telefonoInput}`);
 
   // const numeroTelefono = '+573005267747';
   // const whatsappUrl = 'https://api.whatsapp.com/send?phone=' + numeroTelefono + '&text=' + encodeURIComponent(mensaje);
