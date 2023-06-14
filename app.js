@@ -365,21 +365,20 @@ function mostrarPedido() {
 
   function handleBtnEnviarClick(e) {
     e.preventDefault();
-    if (e.target.closest(".btn-enviar-p")) {
-
+    if (e.currentTarget.classList.contains("btn-enviar-p")) {
       const form = document.querySelector("#wpp-pedido-form");
       const formData = new FormData(form);
       const nombreValue = formData.get("nombre");
       const telefonoValue = formData.get("telefono");
       console.log(nombreValue, telefonoValue);
-      setTimeout(() => {
-        
       recolectarYenviar(nombreValue, telefonoValue);
-      }, 500);
     }
   }
 
+
   btnEnviarP.addEventListener("click", handleBtnEnviarClick);
+  btnEnviarP.addEventListener("touchstart", handleBtnEnviarClick);
+
   document.body.appendChild(clone);
 }
 
