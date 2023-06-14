@@ -400,23 +400,27 @@ Dirección: ${nomenclatura}
 `;
   }
 
-  let mensaje = `Hola, quisiera hacer un pedido.${enviarA}
-  
-Nombre: ${nombreInput}
-Teléfono: ${telefonoInput}
-  
---------------------------------------------
-  
-${lineasProductos}
-  
---------------------------------------------
-  
-Total: .................. $ ${totalApagar}
-  
---------------------------------------------`;
+ 
 
-  alert(mensaje);
-  console.log(nombreInput, telefonoInput, "hola");
+  setTimeout(() => {
+    let mensaje = `Hola, quisiera hacer un pedido.${enviarA}
+  
+    Nombre: ${nombreInput}
+    Teléfono: ${telefonoInput}
+      
+    --------------------------------------------
+      
+    ${lineasProductos}
+      
+    --------------------------------------------
+      
+    Total: .................. $ ${totalApagar}
+      
+    --------------------------------------------`;
+    
+      alert(mensaje);
+      console.log(nombreInput, telefonoInput, "hola");
+  }, 500);
   // const numeroTelefono = '+573005267747';
   // const whatsappUrl = 'https://api.whatsapp.com/send?phone=' + numeroTelefono + '&text=' + encodeURIComponent(mensaje);
   // window.open(whatsappUrl, '_blank');
