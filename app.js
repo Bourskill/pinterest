@@ -322,7 +322,6 @@ function total(products) {
 
 
 
-
 function mostrarPedido() {
   const clone = document.getElementById("wpp-pedido").content.cloneNode(true);
   
@@ -332,8 +331,8 @@ function mostrarPedido() {
     barrio3: "10.000"
   };
 
-  const selectBarrio = clone.getElementById("barrio");
-  const inputPrecio = clone.getElementById("precio");
+  const selectBarrio = clone.querySelector("#barrio");
+  const inputPrecio = clone.querySelector("#precio");
   const direccion = clone.querySelector(".direccion");
 
   Object.entries(preciosBarrios).forEach(([barrio, precio]) => {
@@ -348,7 +347,7 @@ function mostrarPedido() {
     inputPrecio.value = precioDomicilio;
   });
 
-  const opcionEntrega = clone.querySelector(".wpp-pedido .op-entrega");
+  const opcionEntrega = clone.querySelector(".op-entrega");
   const retirar = opcionEntrega.querySelector(".retirar");
   const enviar = opcionEntrega.querySelector(".enviar");
 
@@ -362,7 +361,7 @@ function mostrarPedido() {
 
   opcionEntrega.addEventListener("click", handleOpcionEntrega);
 
-  const btnEnviarP = clone.querySelector(".wpp-pedido .btn-enviar-p");
+  const btnEnviarP = clone.querySelector(".btn-enviar-p");
 
   function handleBtnEnviarClick(e) {
     e.preventDefault();
@@ -375,18 +374,15 @@ function mostrarPedido() {
   document.body.appendChild(clone);
 }
 
-
-
-
 function recolectarYenviar(productosGuardados) {
-  const selectBarrio2 = document.getElementById("barrio").value;
+  const selectBarrio2 = document.querySelector("#barrio").value;
   const enviar2 = document.querySelector(".enviar");
-  const inputPrecio2 = document.getElementById("precio").value;
+  const inputPrecio2 = document.querySelector("#precio").value;
   
-  const nombreInput = document.getElementById("nombre").value;
-  const telefonoInput = document.getElementById("telefono").value;
+  const nombreInput = document.querySelector("#nombre").value;
+  const telefonoInput = document.querySelector("#telefono").value;
 
-  const nomenclatura = document.getElementById("direccion").value;
+  const nomenclatura = document.querySelector("#direccion").value;
   let totalApagar = document.querySelector(".car-shoping-footer h3 span").textContent;
 
   const lineasProductos = productosGuardados.map(item => `${item.und} x ${item.name} ....... $ ${item.total}`).join("\n\n");
@@ -420,11 +416,12 @@ Total: .................. $ ${totalApagar}
 --------------------------------------------`;
 
   alert(mensaje);
-  console.log(nombreInput,telefonoInput, "hola")
+  console.log(nombreInput, telefonoInput, "hola");
   // const numeroTelefono = '+573005267747';
   // const whatsappUrl = 'https://api.whatsapp.com/send?phone=' + numeroTelefono + '&text=' + encodeURIComponent(mensaje);
   // window.open(whatsappUrl, '_blank');
 }
+
 
 
 
