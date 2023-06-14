@@ -379,13 +379,13 @@ function mostrarPedido() {
 
 
 function recolectarYenviar() {
-  const selectBarrio2 = document.getElementById("barrio");
-  const enviar2 = document.querySelector(".enviar");
-  const inputPrecio2 = document.getElementById("precio");
+  let selectBarrio2 = document.getElementById("barrio");
+  let enviar2 = document.querySelector(".enviar");
+  let inputPrecio2 = document.getElementById("precio");
   
-  const nombreInput = document.querySelector(".nombre").value;
-  const telefonoInput = document.querySelector(".telefono").value;
-  const nomenclatura = document.getElementById("direccion").value;
+  let nombreInput = document.querySelector(".nombre").value;
+  let telefonoInput = document.querySelector(".telefono").value;
+  let nomenclatura = document.getElementById("direccion").value;
   let totalApagar = document.querySelector(".car-shoping-footer h3 span").textContent;
 
   const lineasProductos = productosGuardados.map(item => `${item.und} x ${item.name} ....... $ ${item.total}`).join("\n\n");
@@ -403,7 +403,7 @@ Dirección: ${nomenclatura}
 `;
   }
 
-  const mensaje = `Hola, quisiera hacer un pedido.${enviarA}
+  let mensaje = `Hola, quisiera hacer un pedido.${enviarA}
   
 Nombre: ${nombreInput}
 Teléfono: ${telefonoInput}
