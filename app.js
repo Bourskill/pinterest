@@ -204,7 +204,7 @@ const viewDes = (product) => {
       viewCarShop(product.nombre, product.imagen[0], product.precio, numeros1, productosGuardados);
     }
   });
-  
+
 
   currentFondoViewCard = fondoViewCard;
 };
@@ -239,7 +239,7 @@ function pintarCarrito(productosGuardados) {
 
   productosGuardados.forEach((item, index) => {
     const productMenu = document.querySelector("#product-shoping-menu").content.cloneNode(true);
-   
+
     productMenu.querySelector("h3").textContent = item.name;
     productMenu.querySelector("img").src = item.img;
     productMenu.querySelector("h3 span").textContent = (item.precio * item.und).toLocaleString();
@@ -319,6 +319,7 @@ function total(products) {
 }
 
 
+
 function mostrarPedido() {
   const clone = document.getElementById("wpp-pedido").content.cloneNode(true);
 
@@ -363,7 +364,9 @@ function mostrarPedido() {
   function handleBtnEnviarClick(e) {
     e.preventDefault();
     if (e.target.closest(".btn-enviar-p")) {
-      recolectarYenviar();
+      const nombreInput = document.querySelector(".nombre").value;
+      const telefonoInput = document.querySelector(".telefono").value;
+      recolectarYenviar(nombreInput,telefonoInput);
     }
   }
 
@@ -371,56 +374,54 @@ function mostrarPedido() {
   document.body.appendChild(clone);
 }
 
-function recolectarYenviar() {
+function recolectarYenviar(nombreInput,telefonoInput) {
   const selectBarrio2 = document.querySelector("#barrio");
   const enviar2 = document.querySelector(".enviar");
   const inputPrecio2 = document.querySelector("#precio");
 
-  // Envolver el código dentro de DOMContentLoaded
-  document.addEventListener('DOMContentLoaded', function() {
-    const nombreInput = document.querySelector(".nombre").value;
-    const telefonoInput = document.querySelector(".telefono").value;
-    const nomenclatura = document.querySelector("#direccion").value;
-    let totalApagar = document.querySelector(".car-shoping-footer h3 span").textContent;
 
-    const lineasProductos = productosGuardados.map(item => `${item.und} x ${item.name} ....... $ ${item.total}`).join("\n\n");
+  const nomenclatura = document.querySelector("#direccion").value;
+  let totalApagar = document.querySelector(".car-shoping-footer h3 span").textContent;
 
-    let enviarA = "";
-    if (enviar2.classList.contains("naranja")) {
-      totalApagar = ((Number(totalApagar) + Number(inputPrecio2.value)) * 1000).toLocaleString();
+  const lineasProductos = productosGuardados.map(item => `${item.und} x ${item.name} ....... $ ${item.total}`).join("\n\n");
 
-      enviarA = `
-      
-  ENVIAR A:
-  Barrio: ${selectBarrio2.value}
-  Valor: ${inputPrecio2.value}
-  Dirección: ${nomenclatura}
-  `;
-    }
+  let enviarA = "";
+  if (enviar2.classList.contains("naranja")) {
+    totalApagar = ((Number(totalApagar) + Number(inputPrecio2.value)) * 1000).toLocaleString();
 
-    let mensaje = `Hola, quisiera hacer un pedido.${enviarA}
+    enviarA = `
     
-  Nombre: ${nombreInput}
-  Teléfono: ${telefonoInput}
-    
-  --------------------------------------------
-    
-  ${lineasProductos}
-    
-  --------------------------------------------
-    
-  Total: .................. $ ${totalApagar}
-    
-  --------------------------------------------`;
+ENVIAR A:
+Barrio: ${selectBarrio2.value}
+Valor: ${inputPrecio2.value}
+Dirección: ${nomenclatura}
+`;
+  }
+
+  let mensaje = `Hola, quisiera hacer un pedido.${enviarA}
+  
+Nombre: ${nombreInput}
+Teléfono: ${telefonoInput}
+  
+--------------------------------------------
+  
+${lineasProductos}
+  
+--------------------------------------------
+  
+Total: .................. $ ${totalApagar}
+  
+--------------------------------------------`;
 
   alert(`Nombre: ${nombreInput}\nTeléfono: ${telefonoInput}`);
 
-    // const numeroTelefono = '+573005267747';
-    // const whatsappUrl = 'https://api.whatsapp.com/send?phone=' + numeroTelefono + '&text=' + encodeURIComponent(mensaje);
-    // window.open(whatsappUrl, '_blank');
-  });
-
+  // const numeroTelefono = '+573005267747';
+  // const whatsappUrl = 'https://api.whatsapp.com/send?phone=' + numeroTelefono + '&text=' + encodeURIComponent(mensaje);
+  // window.open(whatsappUrl, '_blank');
 }
-console.log("kiosapaperra")
+
+
+
+
 
 
