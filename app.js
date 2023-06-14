@@ -371,10 +371,11 @@ function mostrarPedido() {
       const formData = new FormData(form);
       const nombreValue = formData.get("nombre");
       const telefonoValue = formData.get("telefono");
-
-
       console.log(nombreValue, telefonoValue);
+      setTimeout(() => {
+        
       recolectarYenviar(nombreValue, telefonoValue);
+      }, 500);
     }
   }
 
