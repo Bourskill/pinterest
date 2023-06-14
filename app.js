@@ -420,6 +420,7 @@ Total: .................. $ ${totalApagar}
 --------------------------------------------`;
 
   alert(mensaje);
+  console.log(nombreInput,telefonoInput, "hola")
   // const numeroTelefono = '+573005267747';
   // const whatsappUrl = 'https://api.whatsapp.com/send?phone=' + numeroTelefono + '&text=' + encodeURIComponent(mensaje);
   // window.open(whatsappUrl, '_blank');
