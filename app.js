@@ -361,6 +361,7 @@ function mostrarPedido() {
   const btnEnviarP = clone.querySelector(".wpp-pedido .btn-enviar-p");
 
   function handleBtnEnviarClick(e) {
+    e.preventDefault();
     if (e.target.closest(".btn-enviar-p")) {
       const nombreInput = document.querySelector(".nombre");
       const telefonoInput = document.querySelector(".telefono");
