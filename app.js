@@ -350,7 +350,6 @@ function mostrarPedido() {
   const enviar = opcionEntrega.querySelector(".enviar");
 
   function handleOpcionEntrega(e) {
-    e.preventDefault();
     const isEnviar = e.target.closest(".enviar");
     enviar.classList.toggle("naranja", isEnviar);
     retirar.classList.toggle("naranja", !isEnviar);
@@ -362,10 +361,9 @@ function mostrarPedido() {
   const btnEnviarP = clone.querySelector(".wpp-pedido .btn-enviar-p");
 
   function handleBtnEnviarClick(e) {
-    e.preventDefault();
     if (e.target.closest(".btn-enviar-p")) {
-      const nombreInput = document.querySelector(".nombre").value;
-      const telefonoInput = document.querySelector(".telefono").value;
+      const nombreInput = document.querySelector(".nombre");
+      const telefonoInput = document.querySelector(".telefono");
       recolectarYenviar(nombreInput,telefonoInput);
     }
   }
@@ -400,8 +398,8 @@ Dirección: ${nomenclatura}
 
   let mensaje = `Hola, quisiera hacer un pedido.${enviarA}
   
-Nombre: ${nombreInput}
-Teléfono: ${telefonoInput}
+Nombre: ${nombreInput.value}
+Teléfono: ${telefonoInput.value}
   
 --------------------------------------------
   
@@ -413,7 +411,7 @@ Total: .................. $ ${totalApagar}
   
 --------------------------------------------`;
 
-  alert(`Nombre: ${nombreInput}\nTeléfono: ${telefonoInput}`);
+  alert(`Nombre: ${nombreInput.value}\nTeléfono: ${telefonoInput.value}`);
 
   // const numeroTelefono = '+573005267747';
   // const whatsappUrl = 'https://api.whatsapp.com/send?phone=' + numeroTelefono + '&text=' + encodeURIComponent(mensaje);
