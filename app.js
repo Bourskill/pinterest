@@ -383,10 +383,11 @@ function recolectarYenviar(productosGuardados) {
   const enviar2 = document.querySelector(".enviar");
   const inputPrecio2 = document.getElementById("precio").value;
   
-  const nombreInput = document.querySelector(".nombre").value;
-  const telefonoInput = document.querySelector(".telefono").value;
+  const nombreInput = document.getElementById("nombre").value;
+  const telefonoInput = document.getElementById("telefono").value;
+
   const nomenclatura = document.getElementById("direccion").value;
-  const totalApagar = document.querySelector(".car-shoping-footer h3 span").textContent;
+  let totalApagar = document.querySelector(".car-shoping-footer h3 span").textContent;
 
   const lineasProductos = productosGuardados.map(item => `${item.und} x ${item.name} ....... $ ${item.total}`).join("\n\n");
 
@@ -418,11 +419,12 @@ Total: .................. $ ${totalApagar}
   
 --------------------------------------------`;
 
-alert(mensaje)
+  alert(mensaje);
   // const numeroTelefono = '+573005267747';
   // const whatsappUrl = 'https://api.whatsapp.com/send?phone=' + numeroTelefono + '&text=' + encodeURIComponent(mensaje);
   // window.open(whatsappUrl, '_blank');
 }
+
 
 
 
