@@ -433,9 +433,6 @@ function total(products) {
 
 
 
-
-
-
 function mostrarPedido() {
   const clone = document.getElementById("wpp-pedido").content.cloneNode(true);
   
@@ -481,6 +478,7 @@ function mostrarPedido() {
   const retirar = opcionEntrega.querySelector(".retirar");
   const enviar = opcionEntrega.querySelector(".enviar");
   opcionEntrega.addEventListener("click", handleOpcionEntrega);
+  opcionEntrega.addEventListener("touchstart", handleOpcionEntrega, { passive: true });
 
   function handleBtnEnviarClick(e) {
     e.preventDefault();
@@ -491,6 +489,7 @@ function mostrarPedido() {
 
   const btnEnviarP = clone.querySelector(".wpp-pedido .btn-enviar-p");
   btnEnviarP.addEventListener("click", handleBtnEnviarClick);
+  btnEnviarP.addEventListener("touchstart", handleBtnEnviarClick, { passive: true });
   document.body.appendChild(clone);
 }
 
@@ -498,10 +497,10 @@ function mostrarPedido() {
 
 
 function recolectarYenviar() {
+
   const selectBarrio2 = document.getElementById("barrio");
   const enviar2 = document.querySelector(".enviar");
   const inputPrecio2 = document.getElementById("precio");
-
 
   const nombreInput = document.querySelector(".nombre").value;
   const telefonoInput = document.querySelector(".telefono").value;
