@@ -367,7 +367,7 @@ function mostrarPedido() {
   function handleBtnEnviarClick(e) {
     e.preventDefault();
     if (e.target.closest(".btn-enviar-p")) {
-      recolectarYenviar();
+      recolectarYenviar(productosGuardados);
     }
   }
 
@@ -378,7 +378,7 @@ function mostrarPedido() {
 
 
 
-function recolectarYenviar() {
+function recolectarYenviar(productosGuardados) {
   const selectBarrio2 = document.getElementById("barrio").value;
   const enviar2 = document.querySelector(".enviar");
   const inputPrecio2 = document.getElementById("precio").value;
