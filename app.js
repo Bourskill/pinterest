@@ -319,7 +319,6 @@ function total(products) {
 }
 
 
-
 function mostrarPedido() {
   const clone = document.getElementById("wpp-pedido").content.cloneNode(true);
 
@@ -377,50 +376,51 @@ function recolectarYenviar() {
   const enviar2 = document.querySelector(".enviar");
   const inputPrecio2 = document.querySelector("#precio");
 
-  const nombreInput = document.querySelector(".nombre").value;
-  const telefonoInput = document.querySelector(".telefono").value;
-  const nomenclatura = document.querySelector("#direccion").value;
-  let totalApagar = document.querySelector(".car-shoping-footer h3 span").textContent;
+  // Envolver el código dentro de DOMContentLoaded
+  document.addEventListener('DOMContentLoaded', function() {
+    const nombreInput = document.querySelector(".nombre").value;
+    const telefonoInput = document.querySelector(".telefono").value;
+    const nomenclatura = document.querySelector("#direccion").value;
+    let totalApagar = document.querySelector(".car-shoping-footer h3 span").textContent;
 
-  const lineasProductos = productosGuardados.map(item => `${item.und} x ${item.name} ....... $ ${item.total}`).join("\n\n");
+    const lineasProductos = productosGuardados.map(item => `${item.und} x ${item.name} ....... $ ${item.total}`).join("\n\n");
 
-  let enviarA = "";
-  if (enviar2.classList.contains("naranja")) {
-    totalApagar = ((Number(totalApagar) + Number(inputPrecio2.value)) * 1000).toLocaleString();
+    let enviarA = "";
+    if (enviar2.classList.contains("naranja")) {
+      totalApagar = ((Number(totalApagar) + Number(inputPrecio2.value)) * 1000).toLocaleString();
 
-    enviarA = `
+      enviarA = `
+      
+  ENVIAR A:
+  Barrio: ${selectBarrio2.value}
+  Valor: ${inputPrecio2.value}
+  Dirección: ${nomenclatura}
+  `;
+    }
+
+    let mensaje = `Hola, quisiera hacer un pedido.${enviarA}
     
-ENVIAR A:
-Barrio: ${selectBarrio2.value}
-Valor: ${inputPrecio2.value}
-Dirección: ${nomenclatura}
-`;
-  }
+  Nombre: ${nombreInput}
+  Teléfono: ${telefonoInput}
+    
+  --------------------------------------------
+    
+  ${lineasProductos}
+    
+  --------------------------------------------
+    
+  Total: .................. $ ${totalApagar}
+    
+  --------------------------------------------`;
 
-  let mensaje = `Hola, quisiera hacer un pedido.${enviarA}
-  
-Nombre: ${nombreInput}
-Teléfono: ${telefonoInput}
-  
---------------------------------------------
-  
-${lineasProductos}
-  
---------------------------------------------
-  
-Total: .................. $ ${totalApagar}
-  
---------------------------------------------`;
+  alert(`Nombre: ${nombreInput}\nTeléfono: ${telefonoInput}`);
 
-alert(`Nombre: ${nombreInput}\nTeléfono: ${telefonoInput}`);
+    // const numeroTelefono = '+573005267747';
+    // const whatsappUrl = 'https://api.whatsapp.com/send?phone=' + numeroTelefono + '&text=' + encodeURIComponent(mensaje);
+    // window.open(whatsappUrl, '_blank');
+  });
 
-  // const numeroTelefono = '+573005267747';
-  // const whatsappUrl = 'https://api.whatsapp.com/send?phone=' + numeroTelefono + '&text=' + encodeURIComponent(mensaje);
-  // window.open(whatsappUrl, '_blank');
 }
-
-
-
-
+console.log("kiosapaperra")
 
 
