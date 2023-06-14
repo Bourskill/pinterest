@@ -430,7 +430,7 @@ function total(products) {
 
 
 
-
+    
 
 
 function mostrarPedido() {
@@ -481,7 +481,6 @@ function mostrarPedido() {
   opcionEntrega.addEventListener("touchstart", handleOpcionEntrega, { passive: true });
 
   function handleBtnEnviarClick(e) {
-    e.preventDefault();
     if (e.target.closest(".btn-enviar-p")) {
       recolectarYenviar();
     }
