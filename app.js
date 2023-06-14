@@ -412,7 +412,8 @@ Total: .................. $ ${totalApagar}
   
 --------------------------------------------`;
 
-  alert(mensaje);
+alert(`Nombre: ${nombreInput}\nTeléfono: ${telefonoInput}`);
+
   // const numeroTelefono = '+573005267747';
   // const whatsappUrl = 'https://api.whatsapp.com/send?phone=' + numeroTelefono + '&text=' + encodeURIComponent(mensaje);
   // window.open(whatsappUrl, '_blank');
