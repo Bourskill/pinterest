@@ -404,6 +404,7 @@ function mostrarPedido(productosGuardados) {
 function recolectarYenviar(nombre, telefono, barrio, direccion, productosGuardados) {
   const inputPrecio2 = document.querySelector("#precio").value;
   const enviar2 = document.querySelector(".enviar");
+  console.log(enviar2)
   let totalApagar = document.querySelector(".car-shoping-footer h3 span").textContent;
 
   const lineasProductos = productosGuardados.map(item => `${item.und} x ${item.name} ....... $ ${item.total}`).join("\n\n");
