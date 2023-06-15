@@ -364,12 +364,26 @@ function mostrarPedido() {
 
   // const btnEnviarP = clone.querySelector(".wpp-pedido .btn-enviar-p");
 
+  const nombreInput = clone.querySelector("#nombre");
+  const telefonoInput = clone.querySelector("#telefono");
+  let nombreValue = "";
+  let telefonoValue = "";
+
+  nombreInput.addEventListener("input", function (e) {
+    nombreValue = e.target.value;
+  });
+  telefonoInput.addEventListener("input", function (e) {
+    telefonoValue = e.target.value;
+  });
+
   function handleBtnEnviarClick(e) {
     e.preventDefault();
-    const form = document.querySelector("#wpp-pedido-form");
-    const formData = new FormData(form);
-    const nombreValue = formData.get("nombre");
-    const telefonoValue = formData.get("telefono");
+
+    // const form = document.querySelector("#wpp-pedido-form");
+    // const formData = new FormData(form);
+    // const nombreValue = formData.get("nombre");
+    // const telefonoValue = formData.get("telefono");
+
     console.log(nombreValue, telefonoValue);
     recolectarYenviar(nombreValue, telefonoValue);
   }
