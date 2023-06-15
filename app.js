@@ -353,6 +353,7 @@ function mostrarPedido() {
   const enviar = opcionEntrega.querySelector(".enviar");
 
   function handleOpcionEntrega(e) {
+    e.preventDefault();
     const isEnviar = e.target.closest(".enviar");
     enviar.classList.toggle("naranja", isEnviar);
     retirar.classList.toggle("naranja", !isEnviar);
@@ -361,23 +362,20 @@ function mostrarPedido() {
 
   opcionEntrega.addEventListener("click", handleOpcionEntrega);
 
-  const btnEnviarP = clone.querySelector(".wpp-pedido .btn-enviar-p");
+  // const btnEnviarP = clone.querySelector(".wpp-pedido .btn-enviar-p");
 
   function handleBtnEnviarClick(e) {
     e.preventDefault();
-    if (e.currentTarget.classList.contains("btn-enviar-p")) {
-      const form = document.querySelector("#wpp-pedido-form");
-      const formData = new FormData(form);
-      const nombreValue = formData.get("nombre");
-      const telefonoValue = formData.get("telefono");
-      console.log(nombreValue, telefonoValue);
-      recolectarYenviar(nombreValue, telefonoValue);
-    }
+    const form = document.querySelector("#wpp-pedido-form");
+    const formData = new FormData(form);
+    const nombreValue = formData.get("nombre");
+    const telefonoValue = formData.get("telefono");
+    console.log(nombreValue, telefonoValue);
+    recolectarYenviar(nombreValue, telefonoValue);
   }
 
-
-  btnEnviarP.addEventListener("click", handleBtnEnviarClick);
-  btnEnviarP.addEventListener("touchstart", handleBtnEnviarClick);
+  const form = clone.querySelector("#wpp-pedido-form");
+  form.addEventListener("submit", handleBtnEnviarClick);
 
   document.body.appendChild(clone);
 }
@@ -386,7 +384,6 @@ function recolectarYenviar(nombreInput, telefonoInput) {
   const selectBarrio2 = document.querySelector("#barrio");
   const enviar2 = document.querySelector(".enviar");
   const inputPrecio2 = document.querySelector("#precio");
-
 
   const nomenclatura = document.querySelector("#direccion").value;
   let totalApagar = document.querySelector(".car-shoping-footer h3 span").textContent;
@@ -427,7 +424,6 @@ Total: .................. $ ${totalApagar}
   // const whatsappUrl = 'https://api.whatsapp.com/send?phone=' + numeroTelefono + '&text=' + encodeURIComponent(mensaje);
   // window.open(whatsappUrl, '_blank');
 }
-
 
 
 
