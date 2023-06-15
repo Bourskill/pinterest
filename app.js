@@ -319,6 +319,7 @@ document.querySelector(".car").addEventListener("click", async (e) => {
 function total(products) {
   const totalPrecio = products.reduce((acumulador, item) => acumulador + (item.precio * item.und), 0);
   document.querySelector(".car-shoping-footer h3 span").textContent = totalPrecio.toLocaleString();
+  return totalPrecio;
 }
 
 
@@ -397,7 +398,7 @@ function mostrarPedido(productosGuardados) {
 
 
 function recolectarYenviar(nombre, telefono, barrio, direccion, precio, enviar, productosGuardados) {
-  const totalApagar = document.querySelector(".car-shoping-footer h3 span").textContent;
+  const totalApagar = total(productosGuardados);
   console.log(typeof totalApagar, typeof precio);
   console.log(Number(totalApagar), Number(precio));
 
