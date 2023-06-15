@@ -324,10 +324,17 @@ function total(products) {
 
 
 
-
-
 function mostrarPedido(productosGuardados) {
   const clone = document.getElementById("wpp-pedido").content.cloneNode(true);
+  const selectBarrio = clone.querySelector("#barrio");
+  const inputPrecio = clone.querySelector("#precio");
+  const direccion = clone.querySelector(".direccion");
+  const opcionEntrega = clone.querySelector(".wpp-pedido .op-entrega");
+  const retirar = opcionEntrega.querySelector(".retirar");
+  const enviar = opcionEntrega.querySelector(".enviar");
+  const nombreInput = clone.querySelector("#nombre");
+  const telefonoInput = clone.querySelector("#telefono");
+  const nomenclatura = clone.querySelector("#direccion");
 
   const preciosBarrios = {
     barrio1: "5.000",
@@ -335,76 +342,53 @@ function mostrarPedido(productosGuardados) {
     barrio3: "10.000"
   };
 
-  const selectBarrio = clone.querySelector("#barrio");
-  const inputPrecio = clone.querySelector("#precio");
-  const direccion = clone.querySelector(".direccion");
-
-  Object.entries(preciosBarrios).forEach(([barrio, precio]) => {
-    const option = document.createElement("option");
-    option.value = barrio;
-    option.textContent = barrio;
-    selectBarrio.appendChild(option);
-  });
-
-  selectBarrio.addEventListener("change", function () {
-    const precioDomicilio = preciosBarrios[selectBarrio.value] || 0;
-    inputPrecio.value = precioDomicilio;
-  });
-
-  const opcionEntrega = clone.querySelector(".wpp-pedido .op-entrega");
-  const retirar = opcionEntrega.querySelector(".retirar");
-  const enviar = opcionEntrega.querySelector(".enviar");
-
-  function handleOpcionEntrega(e) {
-    e.preventDefault();
-    if (e.target.classList.contains("enviar")) {
-      enviar.classList.add("naranja");
-      retirar.classList.remove("naranja");
-      direccion.style.display = "flex";
-    } else if (e.target.classList.contains("retirar")) {
-      enviar.classList.remove("naranja");
-      retirar.classList.add("naranja");
-      direccion.style.display = "";
-    }
-  }
-
-  opcionEntrega.addEventListener("click", handleOpcionEntrega);
-
-  const nombreInput = clone.querySelector("#nombre");
-  const telefonoInput = clone.querySelector("#telefono");
-  const nomenclatura = clone.querySelector("#direccion");
-
   let nombreValue = "";
   let telefonoValue = "";
   let nomenclaturaValue = "";
   let barrioValue = "";
   let inputPrecioValue = 0;
 
-  selectBarrio.addEventListener("input", function (e) {
+  Object.entries(preciosBarrios).forEach(([barrio, precio]) => {
+    const option = new Option(barrio, barrio);
+    selectBarrio.appendChild(option);
+  });
+
+  selectBarrio.addEventListener("change", () => {
+    inputPrecio.value = preciosBarrios[selectBarrio.value] || 0;
+  });
+
+  function handleOpcionEntrega(e) {
+    e.preventDefault();
+    enviar.classList.toggle("naranja");
+    retirar.classList.toggle("naranja");
+    direccion.style.display = enviar.classList.contains("naranja") ? "flex" : "";
+  }
+
+  opcionEntrega.addEventListener("click", handleOpcionEntrega);
+
+  selectBarrio.addEventListener("input", (e) => {
     barrioValue = e.target.value;
   });
 
-  nomenclatura.addEventListener("input", function (e) {
+  nomenclatura.addEventListener("input", (e) => {
     nomenclaturaValue = e.target.value;
   });
 
-  nombreInput.addEventListener("input", function (e) {
+  nombreInput.addEventListener("input", (e) => {
     nombreValue = e.target.value;
   });
 
-  telefonoInput.addEventListener("input", function (e) {
+  telefonoInput.addEventListener("input", (e) => {
     telefonoValue = e.target.value;
   });
 
-  function handleBtnEnviarClick(e) {
+  const form = clone.querySelector("#wpp-pedido-form");
+  form.addEventListener("submit", (e) => {
     e.preventDefault();
     const precioDomicilio = preciosBarrios[barrioValue] || 0;
     inputPrecioValue = precioDomicilio;
     recolectarYenviar(nombreValue, telefonoValue, barrioValue, nomenclaturaValue, inputPrecioValue, enviar, productosGuardados);
-  }
-
-  const form = clone.querySelector("#wpp-pedido-form");
-  form.addEventListener("submit", handleBtnEnviarClick);
+  });
 
   document.body.appendChild(clone);
 }
@@ -414,18 +398,14 @@ function recolectarYenviar(nombre, telefono, barrio, direccion, precio, enviar, 
 
   const lineasProductos = productosGuardados.map(item => `${item.und} x ${item.name} ....... $ ${item.total}`).join("\n\n");
 
-  let enviarA = "";
-  if (enviar.classList.contains("naranja")) {
-    totalApagar = ((Number(totalApagar) + Number(precio)) * 1000).toLocaleString();
-
-    enviarA = `
+  let enviarA = enviar.classList.contains("naranja") ?
+    `
 
 ENVIAR A:
 Barrio: ${barrio}
 Valor: ${precio}
 Dirección: ${direccion}
-`;
-  }
+` : "";
 
   let mensaje = `Hola, quisiera hacer un pedido.${enviarA}
 
@@ -438,7 +418,7 @@ ${lineasProductos}
 
 --------------------------------------------
 
-Total: .................. $ ${totalApagar}
+Total: .................. $ ${((Number(totalApagar) + Number(precio)) * 1000).toLocaleString()}
 
 --------------------------------------------`;
 
@@ -448,6 +428,7 @@ Total: .................. $ ${totalApagar}
   // const whatsappUrl = 'https://api.whatsapp.com/send?phone=' + numeroTelefono + '&text=' + encodeURIComponent(mensaje);
   // window.open(whatsappUrl, '_blank');
 }
+
 
 
 
