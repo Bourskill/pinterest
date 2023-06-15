@@ -402,7 +402,7 @@ function recolectarYenviar(nombre, telefono, barrio, direccion, precio, enviar, 
   console.log(typeof totalApagar, typeof precio);
   console.log(Number(totalApagar), Number(precio));
 
-  let totalApagar2 = ((Number(totalApagar) + Number(precio)) * 1000).toLocaleString();
+  let totalApagar2 = ((Number(totalApagar) + (Number(precio) * 1000))).toLocaleString();
 
   const lineasProductos = productosGuardados.map(item => `${item.und} x ${item.name} ....... $ ${item.total}`).join("\n\n");
 
