@@ -378,13 +378,6 @@ function mostrarPedido() {
 
   function handleBtnEnviarClick(e) {
     e.preventDefault();
-
-    // const form = document.querySelector("#wpp-pedido-form");
-    // const formData = new FormData(form);
-    // const nombreValue = formData.get("nombre");
-    // const telefonoValue = formData.get("telefono");
-
-    console.log(nombreValue, telefonoValue);
     recolectarYenviar(nombreValue, telefonoValue);
   }
 
@@ -432,7 +425,7 @@ Total: .................. $ ${totalApagar}
   
 --------------------------------------------`;
 
-  alert(`Nombre: ${nombreInput}\nTeléfono: ${telefonoInput}`);
+  alert(mensaje);
 
   // const numeroTelefono = '+573005267747';
   // const whatsappUrl = 'https://api.whatsapp.com/send?phone=' + numeroTelefono + '&text=' + encodeURIComponent(mensaje);
