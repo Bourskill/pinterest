@@ -330,8 +330,6 @@ function mostrarPedido(productosGuardados) {
   const inputPrecio = clone.querySelector("#precio");
   const direccion = clone.querySelector(".direccion");
   const opcionEntrega = clone.querySelector(".wpp-pedido .op-entrega");
-  const retirar = opcionEntrega.querySelector(".retirar");
-  const enviar = opcionEntrega.querySelector(".enviar");
   const nombreInput = clone.querySelector("#nombre");
   const telefonoInput = clone.querySelector("#telefono");
   const nomenclatura = clone.querySelector("#direccion");
@@ -359,39 +357,43 @@ function mostrarPedido(productosGuardados) {
 
   function handleOpcionEntrega(e) {
     e.preventDefault();
-    enviar.classList.toggle("naranja");
-    retirar.classList.toggle("naranja");
-    direccion.style.display = enviar.classList.contains("naranja") ? "flex" : "";
+    opcionEntrega.querySelector(".enviar").classList.toggle("naranja");
+    opcionEntrega.querySelector(".retirar").classList.toggle("naranja");
+    direccion.style.display = opcionEntrega.querySelector(".enviar").classList.contains("naranja") ? "flex" : "";
   }
 
   opcionEntrega.addEventListener("click", handleOpcionEntrega);
-
-  selectBarrio.addEventListener("input", (e) => {
-    barrioValue = e.target.value;
-  });
-
-  nomenclatura.addEventListener("input", (e) => {
-    nomenclaturaValue = e.target.value;
-  });
-
-  nombreInput.addEventListener("input", (e) => {
-    nombreValue = e.target.value;
-  });
-
-  telefonoInput.addEventListener("input", (e) => {
-    telefonoValue = e.target.value;
-  });
 
   const form = clone.querySelector("#wpp-pedido-form");
   form.addEventListener("submit", (e) => {
     e.preventDefault();
     const precioDomicilio = preciosBarrios[barrioValue] || 0;
     inputPrecioValue = precioDomicilio;
-    recolectarYenviar(nombreValue, telefonoValue, barrioValue, nomenclaturaValue, inputPrecioValue, enviar, productosGuardados);
+    recolectarYenviar(nombreValue, telefonoValue, barrioValue, nomenclaturaValue, inputPrecioValue, opcionEntrega.querySelector(".enviar"), productosGuardados);
+  });
+
+  const inputs = [selectBarrio, nomenclatura, nombreInput, telefonoInput];
+  inputs.forEach((input) => {
+    input.addEventListener("input", (e) => {
+      if (input === selectBarrio) {
+        barrioValue = e.target.value;
+      } else if (input === nomenclatura) {
+        nomenclaturaValue = e.target.value;
+      } else if (input === nombreInput) {
+        nombreValue = e.target.value;
+      } else if (input === telefonoInput) {
+        telefonoValue = e.target.value;
+      }
+    });
   });
 
   document.body.appendChild(clone);
 }
+
+
+
+
+
 
 function recolectarYenviar(nombre, telefono, barrio, direccion, precio, enviar, productosGuardados) {
   let totalApagar = document.querySelector(".car-shoping-footer h3 span").textContent;
