@@ -279,6 +279,9 @@ function pintarCarrito(productosGuardados) {
 }
 
 
+
+
+
 document.querySelector(".car").addEventListener("click", async (e) => {
 
   if (e.target.closest(".car")) {
@@ -299,7 +302,7 @@ document.querySelector(".car").addEventListener("click", async (e) => {
 
     const handleWppClick = (e) => {
       if (e.target.closest(".car-shoping-footer .wpp")) {
-        mostrarPedido();
+        mostrarPedido(productosGuardados);
       }
     };
 
@@ -323,7 +326,7 @@ function total(products) {
 
 
 
-function mostrarPedido() {
+function mostrarPedido(productosGuardados) {
   const clone = document.getElementById("wpp-pedido").content.cloneNode(true);
 
   const preciosBarrios = {
@@ -366,19 +369,27 @@ function mostrarPedido() {
 
   const nombreInput = clone.querySelector("#nombre");
   const telefonoInput = clone.querySelector("#telefono");
+
   let nombreValue = "";
   let telefonoValue = "";
+  let nomenclaturaValue = "";
+  let barrioValue = "";
 
+  selectBarrio.addEventListener("input", function (e) {
+    barrioValue = e.target.value;
+  });
+  direccion.addEventListener("input", function (e) {
+    nomenclaturaValue = e.target.value;
+  });
   nombreInput.addEventListener("input", function (e) {
     nombreValue = e.target.value;
   });
   telefonoInput.addEventListener("input", function (e) {
     telefonoValue = e.target.value;
   });
-
   function handleBtnEnviarClick(e) {
     e.preventDefault();
-    recolectarYenviar(nombreValue, telefonoValue);
+    recolectarYenviar(nombreValue, telefonoValue, barrioValue, nomenclaturaValue, productosGuardados);
   }
 
   const form = clone.querySelector("#wpp-pedido-form");
@@ -387,33 +398,33 @@ function mostrarPedido() {
   document.body.appendChild(clone);
 }
 
-function recolectarYenviar(nombreInput, telefonoInput) {
-  const selectBarrio2 = document.querySelector("#barrio");
-  const enviar2 = document.querySelector(".enviar");
-  const inputPrecio2 = document.querySelector("#precio");
 
-  const nomenclatura = document.querySelector("#direccion").value;
+
+
+function recolectarYenviar(nombre, telefono, barrio, direccion, productosGuardados) {
+  const inputPrecio2 = document.querySelector("#precio").value;
+  const enviar2 = document.querySelector(".enviar");
   let totalApagar = document.querySelector(".car-shoping-footer h3 span").textContent;
 
   const lineasProductos = productosGuardados.map(item => `${item.und} x ${item.name} ....... $ ${item.total}`).join("\n\n");
 
   let enviarA = "";
   if (enviar2.classList.contains("naranja")) {
-    totalApagar = ((Number(totalApagar) + Number(inputPrecio2.value)) * 1000).toLocaleString();
+    totalApagar = ((Number(totalApagar) + Number(inputPrecio2)) * 1000).toLocaleString();
 
     enviarA = `
     
 ENVIAR A:
-Barrio: ${selectBarrio2.value}
-Valor: ${inputPrecio2.value}
-Dirección: ${nomenclatura}
+Barrio: ${barrio}
+Valor: ${inputPrecio2}
+Dirección: ${direccion}
 `;
   }
 
   let mensaje = `Hola, quisiera hacer un pedido.${enviarA}
   
-Nombre: ${nombreInput}
-Teléfono: ${telefonoInput}
+Nombre: ${nombre}
+Teléfono: ${telefono}
   
 --------------------------------------------
   
