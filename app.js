@@ -369,6 +369,7 @@ function mostrarPedido(productosGuardados) {
     e.preventDefault();
     const precioDomicilio = preciosBarrios[barrioValue] || 0;
     inputPrecioValue = precioDomicilio;
+    console.log("form", inputPrecioValue)
     recolectarYenviar(nombreValue, telefonoValue, barrioValue, nomenclaturaValue, inputPrecioValue, opcionEntrega.querySelector(".enviar"), productosGuardados);
   });
 
@@ -397,6 +398,7 @@ function mostrarPedido(productosGuardados) {
 
 function recolectarYenviar(nombre, telefono, barrio, direccion, precio, enviar, productosGuardados) {
   let totalApagar = document.querySelector(".car-shoping-footer h3 span").textContent;
+  console.log(totalApagar, precio)
 
   const lineasProductos = productosGuardados.map(item => `${item.und} x ${item.name} ....... $ ${item.total}`).join("\n\n");
 
