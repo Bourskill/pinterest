@@ -92,13 +92,28 @@ const pintarImg = product => {
 
 
 
+function cerrarFondo(){
+  const fondo = document.querySelector(".fondo");
+  const preview = document.querySelector(".preview-imgs");
+  const flkty = new Flickity(preview);
+
+  fondo.style.opacity = "0";
+  setTimeout(() => {
+    fondo.style.display = "";
+    preview.innerHTML = "";
+    flkty.destroy();
+  }, 300);
+}
+
+
+
+
 const sliderItem = () => {
   const fondo = document.querySelector(".fondo");
   const preview = document.querySelector(".preview-imgs");
   let flkty;
 
   document.querySelectorAll(".item").forEach(element => {
-
     element.addEventListener("click", ({ currentTarget: { dataset: { id } } }) => {
       const producto = productosArray.find(item => item.id === id);
       fondo.style.display = "flex";
@@ -122,15 +137,7 @@ const sliderItem = () => {
         flkty.select(0);
       });
 
-      fondo.querySelector(".equis1").addEventListener("click", () => {
-        fondo.style.opacity = "0";
-        setTimeout(() => {
-          fondo.style.display = "";
-          preview.innerHTML = "";
-          flkty.destroy();
-        }, 300);
-      });
-
+      fondo.querySelector(".equis1").addEventListener("click", cerrarFondo);
       fondo.querySelector(".descripcion-btn").addEventListener("click", () => viewDes(producto));
     });
   });
@@ -170,50 +177,67 @@ function calcularUnd(eNumber) {
 }
 
 
+const cerrarFondoViewCard = (fondoViewCard) => {
+  fondoViewCard.style.opacity = "0";
+  setTimeout(() => {
+    fondoViewCard.remove();
+  }, 300);
+};
 
 
 let currentFondoViewCard = null;
+
 const viewDes = (product) => {
-  if (currentFondoViewCard) currentFondoViewCard.remove();
+  if (currentFondoViewCard) {
+    cerrarFondoViewCard(currentFondoViewCard);
+  }
 
   const cardView = document.querySelector("#card-descripcion").content.cloneNode(true);
   const fondoViewCard = cardView.querySelector(".descripcion-fondo");
   const numeros1 = cardView.querySelector('.numeros');
   const btnCar = cardView.querySelector('.car-shop');
 
-  cardView.querySelector(".d-img img").src = product.imagen[0];
-  cardView.querySelector(".d-body h2").textContent = product.nombre;
-  cardView.querySelector(".d-body h3 span").textContent = (product.precio).toLocaleString();
-  cardView.querySelector(".d-body p").textContent = product.descripcion;
+  const imgElement = cardView.querySelector(".d-img img");
+  const h2Element = cardView.querySelector(".d-body h2");
+  const h3Element = cardView.querySelector(".d-body h3 span");
+  const pElement = cardView.querySelector(".d-body p");
+
+  imgElement.src = product.imagen[0];
+  h2Element.textContent = product.nombre;
+  h3Element.textContent = (product.precio).toLocaleString();
+  pElement.textContent = product.descripcion;
 
   document.body.appendChild(cardView);
 
   fondoViewCard.style.display = "flex";
   fondoViewCard.style.opacity = "1";
   fondoViewCard.querySelector(".equis2").addEventListener("click", () => {
-    fondoViewCard.style.opacity = "0";
-    setTimeout(() => {
-      fondoViewCard.remove();
-    }, 300);
+    cerrarFondoViewCard(fondoViewCard);
   });
 
   numeros1.addEventListener('click', calcularUnd(numeros1));
 
   btnCar.addEventListener('click', () => {
     if (numeros1.querySelectorAll('span')[1].textContent > 0) {
+      cerrarFondo();
+      cerrarFondoViewCard(currentFondoViewCard);
       viewCarShop(product.nombre, product.imagen[0], product.precio, numeros1, productosGuardados);
     }
   });
-
 
   currentFondoViewCard = fondoViewCard;
 };
 
 
-// 
+
+
+
+
 let productosGuardados = JSON.parse(localStorage.getItem('productos')) || [];
 productosGuardados = productosGuardados.filter(item => item !== null);
 localStorage.setItem('productos', JSON.stringify(productosGuardados));
+
+
 
 
 function viewCarShop(nombre, img, precio, undNumber, productosGuardados) {
@@ -234,11 +258,19 @@ function viewCarShop(nombre, img, precio, undNumber, productosGuardados) {
   console.log(productosGuardados)
 }
 
+
+
+
+
 function pintarCarrito(productosGuardados) {
   const carmenu = document.querySelector("#card-shop-menu").content.cloneNode(true);
+  const carShoppingBody = carmenu.querySelector(".car-shoping-body");
 
   productosGuardados.forEach((item, index) => {
     const productMenu = document.querySelector("#product-shoping-menu").content.cloneNode(true);
+    const trashButton = productMenu.querySelector('.trash');
+    const numerosContainer = productMenu.querySelector('.numeros');
+    const totalPriceSpan = productMenu.querySelector("h3 span");
 
     productMenu.querySelector("h3").textContent = item.name;
     productMenu.querySelector("img").src = item.img;
@@ -246,33 +278,40 @@ function pintarCarrito(productosGuardados) {
     productMenu.querySelector("h5 span").textContent = item.precio.toLocaleString();
     productMenu.querySelectorAll('.numeros span')[1].textContent = item.und;
 
-    productMenu.querySelector('.numeros').addEventListener('click', (e) => {
-      const resultado = calcularUnd(productMenu.querySelector('.numeros'))(e);
-      e.target.closest('.shopping-product-info').querySelector("h3 span").textContent = (item.precio * resultado).toLocaleString();
+
+    const handleNumClick = (e) => {
+      const resultado = calcularUnd(numerosContainer)(e);
+      totalPriceSpan.textContent = (item.precio * resultado).toLocaleString();
       item.und = resultado;
       productosGuardados[index] = item;
 
       if (resultado === 0) {
-        productosGuardados.splice(index, 1);
-        document.querySelectorAll(".shopping-product")[index].remove();
+        handleTrashClick();
       }
 
       item.total = (item.precio * item.und).toLocaleString();
       localStorage.setItem('productos', JSON.stringify(productosGuardados));
       total(productosGuardados);
-    });
+    };
 
-    productMenu.querySelector('.trash').addEventListener('click', () => {
+
+    const handleTrashClick = () => {
+      const productItem = trashButton.closest('.shopping-product');
+      productItem.parentNode.removeChild(productItem);
       productosGuardados.splice(index, 1);
       localStorage.setItem('productos', JSON.stringify(productosGuardados));
-      document.querySelectorAll(".shopping-product")[index].remove();
       total(productosGuardados);
-    });
+      index--;
+    };
+
+
+    numerosContainer.addEventListener('click', handleNumClick);
+    trashButton.addEventListener('click', handleTrashClick);
 
     item.total = (item.precio * item.und).toLocaleString();
     localStorage.setItem('productos', JSON.stringify(productosGuardados));
 
-    carmenu.querySelector(".car-shoping-body").appendChild(productMenu);
+    carShoppingBody.appendChild(productMenu);
   });
 
   document.body.appendChild(carmenu);
@@ -281,9 +320,18 @@ function pintarCarrito(productosGuardados) {
 
 
 
+function cerrarFondo2() {
+  const fondo2 = document.querySelector(".fondo-mentiras");
+  fondo2.style.opacity = "";
+  setTimeout(() => {
+    fondo2.remove();
+  }, 500);
+}
+
+
+
 
 document.querySelector(".car").addEventListener("click", async (e) => {
-
   if (e.target.closest(".car")) {
     pintarCarrito(productosGuardados);
 
@@ -293,12 +341,7 @@ document.querySelector(".car").addEventListener("click", async (e) => {
     const equis3 = document.querySelector('.equis3');
     fondo2.style.opacity = "1";
 
-    equis3.addEventListener("click", () => {
-      fondo2.style.opacity = "";
-      setTimeout(() => {
-        fondo2.remove();
-      }, 500);
-    });
+    equis3.addEventListener("click", cerrarFondo2);
 
     const handleWppClick = (e) => {
       if (e.target.closest(".car-shoping-footer .wpp")) {
@@ -312,9 +355,10 @@ document.querySelector(".car").addEventListener("click", async (e) => {
     wppElement.addEventListener("touchstart", handleWppClick);
     total(productosGuardados);
   }
-
-
 });
+
+
+
 
 function total(products) {
   const totalPrecio = products.reduce((acumulador, item) => acumulador + (item.precio * item.und), 0);
@@ -399,11 +443,6 @@ function mostrarPedido(productosGuardados) {
 
 function recolectarYenviar(nombre, telefono, barrio, direccion, precio, enviar, productosGuardados) {
   const totalApagar = total(productosGuardados);
-  console.log(typeof totalApagar, typeof precio);
-  console.log(Number(totalApagar), Number(precio));
-
-  let totalApagar2 = ((Number(totalApagar) + (Number(precio) * 1000))).toLocaleString();
-
   const lineasProductos = productosGuardados.map(item => `${item.und} x ${item.name} ....... $ ${item.total}`).join("\n\n");
 
   let enviarA = enviar.classList.contains("naranja") ?
@@ -426,7 +465,7 @@ ${lineasProductos}
 
 --------------------------------------------
 
-Total: .................. $ ${totalApagar2}
+Total: .................. $ ${((Number(totalApagar) + (Number(precio) * 1000))).toLocaleString()}
 
 --------------------------------------------`;
 
