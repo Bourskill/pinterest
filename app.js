@@ -322,10 +322,12 @@ function pintarCarrito(productosGuardados) {
 
 function cerrarFondo2() {
   const fondo2 = document.querySelector(".fondo-mentiras");
-  fondo2.style.opacity = "";
-  setTimeout(() => {
-    fondo2.remove();
-  }, 500);
+  if (fondo2) {
+    fondo2.style.opacity = "";
+    setTimeout(() => {
+      fondo2.remove();
+    }, 500);
+  }
 }
 
 
@@ -368,13 +370,14 @@ function total(products) {
 
 function cerrarFondo3() {
   const formWpp = document.querySelector(".wpp-pedido");
-  formWpp.style.opacity = "0";
-  setTimeout(() => {
-    formWpp.remove();
-  }, 500);
-  cerrarFondo2();
+  if (formWpp) {
+    formWpp.style.opacity = "0";
+    setTimeout(() => {
+      formWpp.remove();
+    }, 500);
+    // cerrarFondo2();
+  }
 }
-
 
 function mostrarPedido(productosGuardados) {
   const clone = document.getElementById("wpp-pedido").content.cloneNode(true);
@@ -409,6 +412,7 @@ function mostrarPedido(productosGuardados) {
 
   const equis4 = clone.querySelector(".equis4");
   equis4.addEventListener("click", cerrarFondo3);
+  
 
   function handleOpcionEntrega(e) {
     e.preventDefault();

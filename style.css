@@ -660,7 +660,8 @@ h1 {
   color: #333;
 
   opacity: 1;
-  transition: .5s ease-out;
+  will-change: opacity;
+  transition: opacity .5s ease-out;
 
   overflow: hidden;
 
