@@ -137,24 +137,26 @@
           <p><i class="fa-solid fa-location-dot"></i> En la puerta de mi casa</p>
         </button>
       </div>
-  
+    
       <div class="direccion">
         <select id="barrio" name="barrio">
-          <option value="0">B/</option>
+          <option value="">barrio</option>
         </select>
         <input type="text" id="precio" name="precio" placeholder="Precio" readonly>
         <input type="text" id="direccion" name="direccion" placeholder="Ingresa tu dirección aquí">
       </div>
-  
-      <input type="text" id="nombre" class="nombre" name="nombre" placeholder="Nombre">
-
-      <input type="text" id="telefono" class="telefono" name="telefono" placeholder="Teléfono">
-  
+    
+      <input type="text" id="nombre" class="nombre" name="nombre" placeholder="Nombre" required>
+    
+      <input type="text" id="telefono" class="telefono" name="telefono" placeholder="Teléfono" required>
+    
       <button class="btn-enviar-p" type="submit">
         <h2><i class="fa-brands fa-whatsapp hi"></i> Enviar pedido</h2>
       </button>
 
+      <i class="fa-solid fa-circle-xmark equis equis4"></i>
     </form>
+    
     
   </template>
   

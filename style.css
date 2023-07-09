@@ -36,7 +36,6 @@ h1 {
   font-size: 200%;
   position: absolute;
   cursor: pointer;
-  opacity: .8;
   transition: .2s ease;
 }
 
@@ -60,6 +59,11 @@ h1 {
 .equis3 {
   top: 5px;
   right: 5px;
+}
+
+.equis4 {
+  top: -1px;
+  right: -1px;
 }
 
 .descripcion-btn {
@@ -654,6 +658,9 @@ h1 {
   border-radius: 15px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   color: #333;
+
+  opacity: 1;
+  transition: .5s ease-out;
 
   overflow: hidden;
 
