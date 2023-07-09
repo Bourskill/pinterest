@@ -407,14 +407,8 @@ function mostrarPedido(productosGuardados) {
     inputPrecio.value = preciosBarrios[selectBarrio.value] || 0;
   });
 
-
-
   const equis4 = clone.querySelector(".equis4");
-  equis4.addEventListener("click", function () {
-    cerrarFondo3();
-  });
-
-
+  equis4.addEventListener("click", cerrarFondo3);
 
   function handleOpcionEntrega(e) {
     e.preventDefault();
