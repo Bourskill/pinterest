@@ -368,11 +368,11 @@ function total(products) {
 
 function cerrarFondo3() {
   const formWpp = document.querySelector(".wpp-pedido");
-    formWpp.style.opacity = "0";
-    setTimeout(() => {
-      formWpp.remove();
-    }, 500);
-    cerrarFondo2();
+  formWpp.style.opacity = "0";
+  setTimeout(() => {
+    formWpp.remove();
+  }, 500);
+  cerrarFondo2();
 }
 
 
