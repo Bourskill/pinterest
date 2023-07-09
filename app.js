@@ -366,7 +366,14 @@ function total(products) {
   return totalPrecio;
 }
 
-
+function cerrarFondo3() {
+  const formWpp = document.querySelector(".wpp-pedido");
+    formWpp.style.opacity = "0";
+    setTimeout(() => {
+      formWpp.remove();
+    }, 500);
+    cerrarFondo2();
+}
 
 
 function mostrarPedido(productosGuardados) {
@@ -404,12 +411,7 @@ function mostrarPedido(productosGuardados) {
 
   const equis4 = clone.querySelector(".equis4");
   equis4.addEventListener("click", function () {
-    cerrarFondo2();
-    const formWpp = document.querySelector(".wpp-pedido");
-    formWpp.style.opacity = "0";
-    setTimeout(() => {
-      formWpp.remove();
-    }, 500);
+    cerrarFondo3();
   });
 
 
