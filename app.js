@@ -345,16 +345,15 @@ document.querySelector(".car").addEventListener("click", async (e) => {
 
     equis3.addEventListener("click", cerrarFondo2);
 
-    const handleWppClick = (e) => {
+  
+    const wppElement = document.querySelector(".car-shoping-footer .wpp");
+    wppElement.addEventListener("click", (e)=>{
       if (e.target.closest(".car-shoping-footer .wpp")) {
+        console.log("apertura")
         mostrarPedido(productosGuardados);
       }
-    };
+    });
 
-    const wppElement = document.querySelector(".car-shoping-footer .wpp");
-
-    wppElement.addEventListener("click", handleWppClick);
-    wppElement.addEventListener("touchstart", handleWppClick);
     total(productosGuardados);
   }
 });
@@ -369,6 +368,7 @@ function total(products) {
 }
 
 function cerrarFondo3() {
+  console.log("cierre")
   const formWpp = document.querySelector(".wpp-pedido");
   if (formWpp) {
     formWpp.style.opacity = "0";
