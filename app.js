@@ -107,40 +107,47 @@ function cerrarFondo() {
 
 
 
-
 const sliderItem = () => {
-  const fondo = document.querySelector(".fondo");
-  const preview = document.querySelector(".preview-imgs");
+  const templateContent = document.querySelector('#slider-product').content.cloneNode(true);
+  const fondo = templateContent.querySelector(".fondo");
+  const preview = templateContent.querySelector(".preview-imgs");
   let flkty;
 
-  document.querySelectorAll(".item").forEach(element => {
-    element.addEventListener("click", ({ currentTarget: { dataset: { id } } }) => {
-      const producto = productosArray.find(item => item.id === id);
-      fondo.style.display = "flex";
-      preview.innerHTML = producto.imagen.map(src => `
-        <div class="cell">
-          <img src="${src}" alt="${producto.nombre}">
-        </div>
-      `).join("");
+  const checkImagesLoaded = () => {
+    const images = Array.from(preview.querySelectorAll(".cell img"));
+    let loadedCount = 0;
 
-      flkty = new Flickity(preview, {
-        selectedAttraction: 0.08,
-        friction: 0.4,
-        cellAlign: 'center',
-        contain: true
-      });
-
-      const loadImg = Array.from(preview.querySelectorAll(".cell img"));
-      Promise.all(loadImg.map(img => img.decode())).then(() => {
+    const handleImageLoad = () => {
+      loadedCount++;
+      if (loadedCount === images.length) {
         fondo.style.opacity = "1";
         flkty.reloadCells();
         flkty.select(0);
-      });
+      }
+    };
 
-      fondo.querySelector(".equis1").addEventListener("click", cerrarFondo);
-      fondo.querySelector(".descripcion-btn").addEventListener("click", () => viewDes(producto));
+    images.forEach(image => {
+      image.complete ? handleImageLoad() : image.addEventListener("load", handleImageLoad);
+      image.addEventListener("error", handleImageLoad);
     });
-  });
+  };
+
+  const handleClick = ({ currentTarget: { dataset: { id } } }) => {
+    const producto = productosArray.find(item => item.id === id);
+    fondo.style.display = "flex";
+    preview.innerHTML = producto.imagen.map(src => `<div class="cell"><img src="${src}" alt="${producto.nombre}"></div>`).join("");
+
+    flkty = new Flickity(preview, { selectedAttraction: 0.08, friction: 0.4, cellAlign: "center", contain: true });
+
+    checkImagesLoaded();
+
+    fondo.querySelector(".equis1").addEventListener("click", cerrarFondo);
+    fondo.querySelector(".descripcion-btn").addEventListener("click", () => viewDes(producto));
+  };
+
+  document.querySelectorAll(".item").forEach(item => item.addEventListener("click", handleClick));
+
+  document.body.appendChild(templateContent);
 };
 
 
@@ -193,7 +200,7 @@ const viewDes = (product) => {
   }
 
   const cardView = document.querySelector("#card-descripcion").content.cloneNode(true);
-  const fondoViewCard = cardView.querySelector(".descripcion-fondo");
+  const fondoViewCard = cardView.querySelector(".fondo");
   const numeros1 = cardView.querySelector('.numeros');
   const btnCar = cardView.querySelector('.car-shop');
 
@@ -265,6 +272,12 @@ function viewCarShop(nombre, img, precio, undNumber, productosGuardados) {
 function pintarCarrito(productosGuardados) {
   const carmenu = document.querySelector("#card-shop-menu").content.cloneNode(true);
   const carShoppingBody = carmenu.querySelector(".car-shoping-body");
+  const fondo2 = carmenu.querySelector(".fondo");
+  fondo2.style.opacity = "1";
+  fondo2.style.display = "flex";
+
+  const equis3 = carmenu.querySelector('.equis3');
+  equis3.addEventListener("click", cerrarFondo2);
 
   productosGuardados.forEach((item, index) => {
     const productMenu = document.querySelector("#product-shoping-menu").content.cloneNode(true);
@@ -321,7 +334,7 @@ function pintarCarrito(productosGuardados) {
 
 
 function cerrarFondo2() {
-  const fondo2 = document.querySelector(".fondo-mentiras");
+  const fondo2 = document.querySelectorAll(".fondo")[1];
   if (fondo2) {
     fondo2.style.opacity = "";
     setTimeout(() => {
@@ -336,14 +349,8 @@ document.querySelector(".car").addEventListener("click", async (e) => {
 
     await new Promise(resolve => setTimeout(resolve));
 
-    const fondo2 = document.querySelector(".fondo-mentiras");
-    const equis3 = document.querySelector('.equis3');
-    fondo2.style.opacity = "1";
-
-    equis3.addEventListener("click", cerrarFondo2);
-
     const wppElement = document.querySelector(".car-shoping-footer .wpp");
-    wppElement.addEventListener("click", (e)=>{
+    wppElement.addEventListener("click", (e) => {
       if (e.target.closest(".car-shoping-footer .wpp")) {
         mostrarPedido(productosGuardados);
       }
@@ -364,18 +371,18 @@ function total(products) {
 
 
 
-
-
 function cerrarFondo3() {
-  const formWpp = document.querySelector(".wpp-pedido");
-  if (formWpp) {
-    formWpp.style.opacity = "0";
+  const fondo3 = document.querySelectorAll(".fondo")[2];
+  if (fondo3) {
+    fondo3.style.opacity = "";
     setTimeout(() => {
-      formWpp.remove();
+      fondo3.remove();
     }, 500);
     cerrarFondo2();
   }
 }
+
+
 
 function mostrarPedido(productosGuardados) {
   const clone = document.getElementById("wpp-pedido").content.cloneNode(true);
@@ -386,6 +393,9 @@ function mostrarPedido(productosGuardados) {
   const nombreInput = clone.querySelector("#nombre");
   const telefonoInput = clone.querySelector("#telefono");
   const nomenclatura = clone.querySelector("#direccion");
+  const fondo3 = clone.querySelector(".fondo");
+  fondo3.style.opacity = "1";
+  fondo3.style.display = "flex";
 
   const preciosBarrios = {
     barrio1: "5.000",
@@ -410,7 +420,7 @@ function mostrarPedido(productosGuardados) {
 
   const equis4 = clone.querySelector(".equis4");
   equis4.addEventListener("click", cerrarFondo3);
-  
+
 
   function handleOpcionEntrega(e) {
     e.preventDefault();

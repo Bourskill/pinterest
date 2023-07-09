@@ -31,15 +31,18 @@
 
 <body>
 
-  <div class="fondo">
-    <div class="preview-imgs dontprevnext"></div>
-    <i class="fa-solid fa-circle-xmark equis equis1"></i>
-    <button class="descripcion-btn">
-      <span>Descripcion</span>
-    </button>
-  </div>
+  <!-- VISUALIZACION CARRUSEL DE IMAGENES -->
+  <template id="slider-product">
+    <div class="fondo">
+      <div class="preview-imgs dontprevnext"></div>
+      <i class="fa-solid fa-circle-xmark equis equis1"></i>
+      <button class="descripcion-btn">
+        <span>Descripcion</span>
+      </button>
+    </div>
+  </template>
 
-
+  <!-- VISUALIZACION DE IMAGENES DEL PRODUCTO-->
   <template id="img-producto">
     <div class="masonry-item">
       <div class="item">
@@ -50,8 +53,9 @@
       </div>
   </template>
 
+  <!-- VISUALIZACION DE DESCRIPCION DEL PRODUCTO-->
   <template id="card-descripcion">
-    <div class="descripcion-fondo">
+    <div class="fondo">
       <div class="descripcion">
         <div class="d-info">
           <div class="d-img"><img src="" alt=""></div>
@@ -81,8 +85,10 @@
     </div>
   </template>
 
+
+  <!-- VISUALIZACION DE CARRITO DE COMPRAS-->
   <template id="card-shop-menu">
-    <div class="fondo-mentiras">
+    <div class="fondo">
       <div class="car-shoping">
         <div class="car-shoping-head">
           <h2>Productos</h2>
@@ -100,6 +106,8 @@
     </div>
   </template>
 
+
+  <!-- VISUALIZACION DE PRODUCTO EN EL CARRITO DE COMPRAS-->
   <template id="product-shoping-menu">
     <div class="shopping-product">
       <div class="shopping-product-img">
@@ -115,7 +123,6 @@
           <button><span>-</span></button>
         </div>
       </div>
-      <!-- #D42E26 -->
       <button class="trash">
         <i class="fa-solid fa-trash"></i>
       </button>
@@ -123,51 +130,49 @@
   </template>
 
 
-
+  <!-- FORMULARIO WHATSAPP PEDIDO -->
   <template id="wpp-pedido">
+    <div class="fondo">
+      <form class="wpp-pedido" id="wpp-pedido-form">
+        <div class="op-entrega">
+          <button class="retirar naranja">
+            <h3>Lo paso a retirar</h3>
+            <p><i class="fa-solid fa-shop"></i> B/Uribe - Calle 9 # 6-72</p>
+          </button>
+          <button class="enviar">
+            <h3>Lo quiero recibir</h3>
+            <p><i class="fa-solid fa-location-dot"></i> En la puerta de mi casa</p>
+          </button>
+        </div>
 
-    <form class="wpp-pedido" id="wpp-pedido-form">
-      <div class="op-entrega">
-        <button class="retirar naranja">
-          <h3>Lo paso a retirar</h3>
-          <p><i class="fa-solid fa-shop"></i> B/Uribe - Calle 9 # 6-72</p>
-        </button>
-        <button class="enviar">
-          <h3>Lo quiero recibir</h3>
-          <p><i class="fa-solid fa-location-dot"></i> En la puerta de mi casa</p>
-        </button>
-      </div>
-    
-      <div class="direccion">
-        <select id="barrio" name="barrio">
-          <option value="">barrio</option>
-        </select>
-        <input type="text" id="precio" name="precio" placeholder="Precio" readonly>
-        <input type="text" id="direccion" name="direccion" placeholder="Ingresa tu dirección aquí">
-      </div>
-    
-      <input type="text" id="nombre" class="nombre" name="nombre" placeholder="Nombre" required>
-    
-      <input type="text" id="telefono" class="telefono" name="telefono" placeholder="Teléfono" required>
-    
-      <button class="btn-enviar-p" type="submit">
-        <h2><i class="fa-brands fa-whatsapp hi"></i> Enviar pedido</h2>
-      </button>
+        <div class="direccion">
+          <select id="barrio" name="barrio">
+            <option value="">barrio</option>
+          </select>
+          <input type="text" id="precio" name="precio" placeholder="Precio" readonly>
+          <input type="text" id="direccion" name="direccion" placeholder="Ingresa tu dirección aquí">
+        </div>
 
-      <i class="fa-solid fa-circle-xmark equis equis4"></i>
-    </form>
-    
-    
+        <input type="text" id="nombre" class="nombre" name="nombre" placeholder="Nombre" required>
+        <input type="text" id="telefono" class="telefono" name="telefono" placeholder="Teléfono" required>
+        <button class="btn-enviar-p" type="submit">
+          <h2><i class="fa-brands fa-whatsapp hi"></i> Enviar pedido</h2>
+        </button>
+
+        <i class="fa-solid fa-circle-xmark equis equis4"></i>
+      </form>
+    </div>
   </template>
-  
 
 
+  <!-- DOCUMENT -->
   <center>
     <h1>Mis Productos</h1>
   </center>
   <div class="masonry"></div>
   <i class="fa-solid fa-cart-shopping car"></i>
 
+  <!-- SCRIPTS -->
   <script src="app.js" type="module"></script>
 </body>
 
