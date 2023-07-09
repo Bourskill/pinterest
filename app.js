@@ -330,9 +330,6 @@ function cerrarFondo2() {
   }
 }
 
-
-
-
 document.querySelector(".car").addEventListener("click", async (e) => {
   if (e.target.closest(".car")) {
     pintarCarrito(productosGuardados);
@@ -345,11 +342,9 @@ document.querySelector(".car").addEventListener("click", async (e) => {
 
     equis3.addEventListener("click", cerrarFondo2);
 
-  
     const wppElement = document.querySelector(".car-shoping-footer .wpp");
     wppElement.addEventListener("click", (e)=>{
       if (e.target.closest(".car-shoping-footer .wpp")) {
-        console.log("apertura")
         mostrarPedido(productosGuardados);
       }
     });
@@ -367,15 +362,18 @@ function total(products) {
   return totalPrecio;
 }
 
+
+
+
+
 function cerrarFondo3() {
-  console.log("cierre")
   const formWpp = document.querySelector(".wpp-pedido");
   if (formWpp) {
     formWpp.style.opacity = "0";
     setTimeout(() => {
       formWpp.remove();
     }, 500);
-    // cerrarFondo2();
+    cerrarFondo2();
   }
 }
 
